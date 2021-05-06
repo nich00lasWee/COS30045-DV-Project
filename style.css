@@ -3,6 +3,15 @@
   font-family: Helvetica, Arial, sans-serif;
 }
 
+/* Titles */
+.title {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
 /* Navigation Bar */
 nav {
   width: 50%;
