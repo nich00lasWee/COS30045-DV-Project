@@ -57,3 +57,10 @@ nav li a:hover {
   width: inherit;
   align-self: center;
 }
+
+.other-vis {
+  display: flex;
+  height: 300px;
+  width: 50%;
+  margin: 0 auto;
+}
