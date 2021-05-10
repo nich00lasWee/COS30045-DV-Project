@@ -86,3 +86,10 @@ nav li a:hover {
 .zoom {
   float: right;
 }
+
+.other-vis {
+  display: flex;
+  height: 300px;
+  width: 50%;
+  margin: 0 auto;
+}
