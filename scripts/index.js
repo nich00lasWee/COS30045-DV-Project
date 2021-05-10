@@ -1,4 +1,3 @@
-
 function pieChart(dataset, svg, h, cW) {
 
   var sector = dataset.map(function(d) {return d.Sector})
@@ -33,6 +32,7 @@ function pieChart(dataset, svg, h, cW) {
     .append("g")
     .attr("class","arc")
     .attr("transform","translate(" + (outerRadius + 20) + "," + (outerRadius + 20) + ")");  // position in center of rectangle
+
 
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -107,6 +107,14 @@ function init() {
   lineChart(svg, h, cW);
 
   bubbleChart(svg, h, sW, cW);
+    }
+
+function init() {
+  d3.csv("dataset/pieChart.csv").then(function(data) {
+    console.log(data);
+    var dataset = data;
+    pieChart(dataset);
+  })
 }
 
 window.onload = init;
