@@ -52,7 +52,7 @@ function pieChart(dataset) {
     }
 
 function init() {
-  d3.csv("data/pieChart.csv").then(function(data) {
+  d3.csv("dataset/pieChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
     pieChart(dataset);
