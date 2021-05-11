@@ -1,40 +1,82 @@
 <!DOCTYPE html>
 <html>
-
   <header>
     <title>Home</title>
+
     <meta charset="utf-8"/>
     <meta name="description" content="Data Visualisation Project"/>
     <meta name="keywords" content="HTML, CSS, D3, CSV"/>
     <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v6.min.js"></script>
   </header>
   <body>
-    <h1 class="title">Title Placeholder</h1>
+    <!--h1 class="title">Title Placeholder</h1-->
     <nav>
+      <h1>Title</h1>
       <ul>
         <li><a href="index.html">Overview</a></li>
         <li><a href="personal.html">Personal / Household</a></li>
         <li><a href="recycle.html">Recycle</a></li>
       </ul>
     </nav>
-    <br>
-    <h2>Graph Title</h2>
-    <div class="main-container">
-      <div class="main-vis">
-      </div>
-    </div>
 
+    <br>
+    <!--h2>Graph Title</h2-->
+    <div class="vis-container">
+      <div class="main-vis">
+<<<<<<< HEAD
+=======
+        <!--Grouped bar graph: https://www.d3-graph-gallery.com/graph/barplot_grouped_basicWide.html-->
+        
+        <div id="overview-vis">
+          <!--script src="scripts/overview.js"></script-->
+        </div>
+        <iframe id="overview-vis">
+        
+        </iframe>
+>>>>>>> c21cf810ab766289aa4614345383660778513794
+      </div>
+      <br>
+
+<<<<<<< HEAD
     <div id="other-vis">
         <g id="svg"></p>
         <g id="lineChart"></p>
+=======
+      <div class="sub-vis">
+        <div class="sub-vis-home">
+          <div class="other-vis">
+            <p id="svg"></p>
+          </div>
+          <iframe src=""></iframe>
+          <button class="zoom" type="button" name="zoom">
+            <i class="fas fa-expand-alt"></i>
+          </button>
+          <p id="pieChart"></p>
+        </div>
+        <div class="sub-vis-home">
+          <iframe src=""></iframe>
+          <button class="zoom" type="button" name="zoom">
+            <i class="fas fa-expand-alt"></i>
+          </button>
+        </div>
+        <div class="sub-vis-home">
+          <iframe src=""></iframe>
+          <button class="zoom" type="button" name="zoom">
+            <i class="fas fa-expand-alt"></i>
+          </button>
+        </div>
+      </div>
+>>>>>>> c21cf810ab766289aa4614345383660778513794
     </div>
-
   </body>
 
-  <footer>
-  </footer>
+  <footer></footer>
 
-    <script src="scripts/index.js"></script> <!-- try moving later -->
+  <script src="scripts/index.js"></script>
 </html>

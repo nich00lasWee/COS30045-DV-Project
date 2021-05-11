@@ -1,6 +1,29 @@
+<<<<<<< HEAD
 function pieChart(dataset, svg, cD) {    // waste production of each sector 2018-2019 (in tonnes)
 
   var outerRadius = cD / 2.3;  // reduces size of chart
+=======
+function pieChart(dataset, svg, h, cW) {
+
+  var sector = dataset.map(function(d) {return d.Sector})
+  var waste = dataset.map(function(d) {return d.WasteProduced})
+
+  sector.pop(); // remove null values
+  waste.pop();
+
+  svg.append("rect")
+    .attr("x", 1)
+    .attr("y", 1)
+    .attr("width", cW - 1)
+    .attr("height", h - 1); // prevents svg from clipping rectangle
+
+  svg.selectAll("rect")
+    .style("fill","white")
+    .style("stroke","black")
+    .style("stroke-width","1.5");
+
+  var outerRadius = cW / 2.3;  // reduces size of chart
+>>>>>>> c21cf810ab766289aa4614345383660778513794
   var innerRadius = 0;
 
   var arc = d3.arc()
@@ -17,6 +40,7 @@ function pieChart(dataset, svg, cD) {    // waste production of each sector 2018
     .append("g")
     .attr("class","arc")
     .attr("transform","translate(" + (outerRadius + 20) + "," + (outerRadius + 20) + ")");  // position in center of rectangle
+
 
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -139,7 +163,19 @@ function init() {
     lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later
   })
 
+<<<<<<< HEAD
   bubbleChart(svg, sW, cD);
+=======
+  bubbleChart(svg, h, sW, cW);
+    }
+
+function init() {
+  d3.csv("dataset/pieChart.csv").then(function(data) {
+    console.log(data);
+    var dataset = data;
+    pieChart(dataset);
+  })
+>>>>>>> c21cf810ab766289aa4614345383660778513794
 }
 
 window.onload = init;
