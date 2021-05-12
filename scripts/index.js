@@ -1,24 +1,7 @@
 function pieChart(dataset, cD) {    // waste production of each sector 2018-2019 (in tonnes)
 
-  var svg = d3.selectAll("#pieChart")
-    .append("svg")
-    .attr("x",0)
-    .attr("y",0)
-    .attr("width", cD)
-    .attr("height",cD);
 
-  svg.append("rect")
-    .attr("x", 1)
-    .attr("y", 1)
-    .attr("width", cD - 1)
-    .attr("height", cD - 1); // prevents svg from clipping rectangle
-
-    svg.selectAll("rect")
-      .style("fill","white")
-      .style("stroke","black")
-      .style("stroke-width","1.5");
-
-
+/*
   var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
 
@@ -60,10 +43,25 @@ function pieChart(dataset, cD) {    // waste production of each sector 2018-2019
       })
       .on("mouseout", function(d) {
         svg.selectAll("#tooltip").remove();
-      })
+      }) */
     }
 
 function lineChart(dataset, svg, sW, cD, x2, padding) {
+
+  var temp = (sW - (cD * 2)); // determines box location depending on svg width (as set by div)
+  var x2 = (temp + cD) / 2;
+  var padding = 40;
+
+  svg.append("rect")
+    .attr("x", x2)
+    .attr("y", 1)
+    .attr("width", cD - 1)
+    .attr("height", cD - 1); // prevents svg from clipping rectangle
+
+  svg.selectAll("rect")
+    .style("fill","white")
+    .style("stroke","black")
+    .style("stroke-width","1.5");
 
   // Scales are likely incorrect currently - revisit upon issue
   var xScale = d3.scaleOrdinal()
@@ -133,9 +131,50 @@ function bubbleChart(svg, sW, cD) {
 function init() {
 
   var sW = document.getElementById('sub-vis-home').clientWidth;  // Width changes depending on monitor used - this ensures correct value is fetched
-  var cD = 0.125 * sW;                                           // Each chart is allocated 25% of svg Width - remaining 25% is used for gaps
+  var cD = 0.2 * sW;  // Each chart is allocated 20% of svg Width - remainder is used for gaps
 
   console.log(cD);
+
+  var pSvg = d3.selectAll("#pieChart")
+    .append("svg")
+    .attr("x",50)
+    .attr("y",0)
+    .attr("width", cD + 1)
+    .attr("height",cD + 1);
+
+    pSvg.append("rect")
+      .attr("x", 1)
+      .attr("y", 1)
+      .attr("width", cD - 1)
+      .attr("height", cD - 1); // prevents svg from clipping rectangle
+
+    pSvg.selectAll("rect")
+      .style("fill","white")
+      .style("stroke","black")
+      .style("stroke-width","1.5");
+
+  var temp = (sW - (cD * 2)); // determines box location depending on svg width (as set by div)
+  var x2 = (temp + cD) / 2;
+  var padding = 40;
+
+  var lSvg = d3.selectAll("#pieChart")
+    .append("svg")
+    .attr("x", (sW - cD))
+    .attr("y",1)
+    .attr("width", cD + 1)
+    .attr("height",cD + 1);
+
+  lSvg.append("rect")
+    .attr("x", 1)
+    .attr("y", 1)
+    .attr("width", cD - 1)
+    .attr("height", cD - 1); // prevents svg from clipping rectangle
+
+  lSvg.selectAll("rect")
+    .style("fill","white")
+    .style("stroke","black")
+    .style("stroke-width","1.5"); 
+
 
 /*  svg.append("rect")
     .attr("x", (sW - cD - 1))
@@ -161,7 +200,7 @@ function init() {
   d3.csv("data/pieChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
-    pieChart(dataset, cD);
+//    pieChart(dataset, cD);
   })
 
   d3.csv("data/lineChart.csv").then(function(data) {
