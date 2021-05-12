@@ -1,29 +1,25 @@
-<<<<<<< HEAD
-function pieChart(dataset, svg, cD) {    // waste production of each sector 2018-2019 (in tonnes)
+function pieChart(dataset, cD) {    // waste production of each sector 2018-2019 (in tonnes)
 
-  var outerRadius = cD / 2.3;  // reduces size of chart
-=======
-function pieChart(dataset, svg, h, cW) {
-
-  var sector = dataset.map(function(d) {return d.Sector})
-  var waste = dataset.map(function(d) {return d.WasteProduced})
-
-  sector.pop(); // remove null values
-  waste.pop();
+  var svg = d3.selectAll("#pieChart")
+    .append("svg")
+    .attr("x",0)
+    .attr("y",0)
+    .attr("width", cD)
+    .attr("height",cD);
 
   svg.append("rect")
     .attr("x", 1)
     .attr("y", 1)
-    .attr("width", cW - 1)
-    .attr("height", h - 1); // prevents svg from clipping rectangle
+    .attr("width", cD - 1)
+    .attr("height", cD - 1); // prevents svg from clipping rectangle
 
-  svg.selectAll("rect")
-    .style("fill","white")
-    .style("stroke","black")
-    .style("stroke-width","1.5");
+    svg.selectAll("rect")
+      .style("fill","white")
+      .style("stroke","black")
+      .style("stroke-width","1.5");
 
-  var outerRadius = cW / 2.3;  // reduces size of chart
->>>>>>> c21cf810ab766289aa4614345383660778513794
+
+  var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
 
   var arc = d3.arc()
@@ -112,25 +108,36 @@ function lineChart(dataset, svg, sW, cD, x2, padding) {
 
 function bubbleChart(svg, sW, cD) {
 
+  var svg = d3.selectAll("#bubbleChart")
+    .append("svg")
+    .attr("viewBox", "0 0 " + sW + " " + cD ) // Viewbox for responsiveness
+
+    var temp = (sW - (cD * 2)); // determines box location depending on svg width (as set by div)
+    var x2 = (temp + cD) / 2;
+    var padding = 40;
+
+    svg.append("rect")
+      .attr("x", x2)
+      .attr("y", 1)
+      .attr("width", cD - 1)
+      .attr("height", cD - 1); // prevents svg from clipping rectangle
+
+    svg.selectAll("rect")
+      .style("fill","white")
+      .style("stroke","black")
+      .style("stroke-width","1.5");
+
 
 }
 
 function init() {
 
-  var sW = document.getElementById('other-vis').clientWidth;  // Width changes depending on monitor used - this ensures correct value is fetched
-  var cD = 0.25*sW;                                           // Each chart is allocated 25% of svg Width - remaining 25% is used for gaps
+  var sW = document.getElementById('sub-vis-home').clientWidth;  // Width changes depending on monitor used - this ensures correct value is fetched
+  var cD = 0.125 * sW;                                           // Each chart is allocated 25% of svg Width - remaining 25% is used for gaps
 
-  var svg = d3.selectAll("#svg")
-    .append("svg")
-    .attr("viewBox", "0 0 " + sW + " " + cD ) // Viewbox for responsiveness
+  console.log(cD);
 
-  svg.append("rect")
-    .attr("x", 1)
-    .attr("y", 1)
-    .attr("width", cD - 1)
-    .attr("height", cD - 1); // prevents svg from clipping rectangle
-
-  svg.append("rect")
+/*  svg.append("rect")
     .attr("x", (sW - cD - 1))
     .attr("y", 1)
     .attr("width", cD - 1)
@@ -149,33 +156,21 @@ function init() {
   svg.selectAll("rect")
     .style("fill","white")
     .style("stroke","black")
-    .style("stroke-width","1.5");
+    .style("stroke-width","1.5"); */
 
   d3.csv("data/pieChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
-    pieChart(dataset, svg, cD);
+    pieChart(dataset, cD);
   })
 
   d3.csv("data/lineChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
-    lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later
+//    lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later
   })
 
-<<<<<<< HEAD
-  bubbleChart(svg, sW, cD);
-=======
-  bubbleChart(svg, h, sW, cW);
-    }
-
-function init() {
-  d3.csv("dataset/pieChart.csv").then(function(data) {
-    console.log(data);
-    var dataset = data;
-    pieChart(dataset);
-  })
->>>>>>> c21cf810ab766289aa4614345383660778513794
+//  bubbleChart(svg, sW, cD);
 }
 
 window.onload = init;

@@ -69,12 +69,12 @@ nav li a:hover {
   display: flex;
   justify-content: space-between;
   height: 300px;
-  #margin: 0 auto;
 }
 
 .sub-vis-home {
-  width: 32.5%;
+  width: 50%;
   height: 200px;
+  margi
 }
 
 .sub-vis-home iframe {
@@ -87,15 +87,9 @@ nav li a:hover {
   float: right;
 }
 
-#other-vis {
+.other-vis {
   display: flex;
-  height: 320px;
+  height: 300px;
   width: 50%;
   margin: 0 auto;
-}
-
-.line {
-  fill: none;
-  stroke: slategrey;
-  stroke-width: 0.5;
 }
