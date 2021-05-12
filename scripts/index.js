@@ -1,5 +1,6 @@
 function pieChart(dataset, cD) {    // waste production of each sector 2018-2019 (in tonnes)
 
+// Pie Chart: Working, but commented out so I can focus on implementing SVGs
 
 /*
   var outerRadius = cD / 2.3;  // reduces size of chart
@@ -48,8 +49,10 @@ function pieChart(dataset, cD) {    // waste production of each sector 2018-2019
 
 function lineChart(dataset, svg, sW, cD, x2, padding) {
 
+  // Leftover code here: Will remove when SVGs are correct
+
   var temp = (sW - (cD * 2)); // determines box location depending on svg width (as set by div)
-  var x2 = (temp + cD) / 2;
+  var x2 = (temp + cD) / 2;   // Di
   var padding = 40;
 
   svg.append("rect")
@@ -105,39 +108,21 @@ function lineChart(dataset, svg, sW, cD, x2, padding) {
 }
 
 function bubbleChart(svg, sW, cD) {
-
-  var svg = d3.selectAll("#bubbleChart")
-    .append("svg")
-    .attr("viewBox", "0 0 " + sW + " " + cD ) // Viewbox for responsiveness
-
-    var temp = (sW - (cD * 2)); // determines box location depending on svg width (as set by div)
-    var x2 = (temp + cD) / 2;
-    var padding = 40;
-
-    svg.append("rect")
-      .attr("x", x2)
-      .attr("y", 1)
-      .attr("width", cD - 1)
-      .attr("height", cD - 1); // prevents svg from clipping rectangle
-
-    svg.selectAll("rect")
-      .style("fill","white")
-      .style("stroke","black")
-      .style("stroke-width","1.5");
-
-
+  // Will be implemented later
 }
 
 function init() {
 
   var sW = document.getElementById('sub-vis-home').clientWidth;  // Width changes depending on monitor used - this ensures correct value is fetched
-  var cD = 0.2 * sW;  // Each chart is allocated 20% of svg Width - remainder is used for gaps
+  var cD = 0.2 * sW;  // Each chart is allocated 20% of svg Width - remainder is used for gaps between
 
   console.log(cD);
 
+  // Currently lots of repetitive code - will resolve this after SVGs are implemented through classes
+
   var pSvg = d3.selectAll("#pieChart")
     .append("svg")
-    .attr("x",50)
+    .attr("x",0)
     .attr("y",0)
     .attr("width", cD + 1)
     .attr("height",cD + 1);
@@ -153,8 +138,8 @@ function init() {
       .style("stroke","black")
       .style("stroke-width","1.5");
 
-  var temp = (sW - (cD * 2)); // determines box location depending on svg width (as set by div)
-  var x2 = (temp + cD) / 2;
+  var temp = (sW - cD); // determines box location depending on svg width (as set by div)
+  var x2 = temp / 2;   // calculates x coordinate by finding middle point of temp
   var padding = 40;
 
   var lSvg = d3.selectAll("#pieChart")
@@ -173,7 +158,9 @@ function init() {
   lSvg.selectAll("rect")
     .style("fill","white")
     .style("stroke","black")
-    .style("stroke-width","1.5"); 
+    .style("stroke-width","1.5");
+
+    // Removed for now, bugfixing:
 
 
 /*  svg.append("rect")
@@ -195,21 +182,21 @@ function init() {
   svg.selectAll("rect")
     .style("fill","white")
     .style("stroke","black")
-    .style("stroke-width","1.5"); */
+    .style("stroke-width","1.5");
 
   d3.csv("data/pieChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
-//    pieChart(dataset, cD);
+    pieChart(dataset, cD);
   })
 
   d3.csv("data/lineChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
-//    lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later
+   lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later
   })
 
-//  bubbleChart(svg, sW, cD);
+  bubbleChart(svg, sW, cD); */
 }
 
 window.onload = init;
