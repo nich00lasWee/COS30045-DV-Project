@@ -46,11 +46,12 @@ function pieChart(dataset, cD, svg) {    // waste production of each sector 2018
 function lineChart(dataset, svg, sW, cD, x2, padding) {
 
   // Scales are likely incorrect currently - revisit upon issue
-  var xScale = d3.scaleLinear()
+  var xScale = d3.scaleOrdinal()
     .domain([
-      d3.extent(dataset, function(d) { return d.TimePeriod;})
+      d3.min(dataset, function(d) {return d.TimePeriod;}),
+      d3.max(dataset, function(d) {return d.TimePeriod;})
     ])
-    .rangeRound([(x2 + padding), (x2 + cD) - padding]);
+    .range([(x2 + padding), (x2 + cD) - padding]);
 
   var yScale = d3.scaleLinear()
     .domain([540, d3.max(dataset, function(d) {console.log(parseInt(d.HouseholdWaste) + 200); return (parseInt(d.HouseholdWaste) + 20);})])
