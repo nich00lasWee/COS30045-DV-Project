@@ -3,6 +3,12 @@ function pieChart(dataset, cD, svg) {    // waste production of each sector 2018
   var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
 
+  var padding = cD / 15.07826086956522; // acheives equal spacing
+
+  var sectors = dataset.map(function(d) {return d.Sector;});
+
+
+
   var arc = d3.arc()
     .outerRadius(outerRadius)
     .innerRadius(innerRadius);
@@ -16,7 +22,7 @@ function pieChart(dataset, cD, svg) {    // waste production of each sector 2018
     .enter()
     .append("g")
     .attr("class","arc")
-    .attr("transform","translate(" + (outerRadius + 20) + "," + (outerRadius + 20) + ")");  // position in center of rectangle
+    .attr("transform","translate(" + (outerRadius + padding) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -28,38 +34,54 @@ function pieChart(dataset, cD, svg) {    // waste production of each sector 2018
           return arc(d, i);
       })
       .on("mouseover", function(event, d, i) {
+
+
+        console.log(d3.select());
+
+        var text;
+
+          for(j = 0; j < dataset.length; j++)
+            if(dataset[j].WasteProduced != d.value) {
+              console.log(dataset[j].Sector);
+              console.log(d.value);
+              text = "f";
+            }
+
+
         svg.append("text")
           .attr("id","tooltip")
           .attr("x", 20)
           .attr("y", 20)
-          .text(d.value)
-          for(j = 0; j < 10; j++) {
-            if(j == i)                                                 // FIX LATER: Should detect when position of data is equivalent to position of loop
-              console.log("placeholder - will fix later (pieChart)");             // Logs the relevant data. Will eventually display the relevant data (sector) via tooltip
-          };
-      })
+          .attr("text", text);
+        })
+
       .on("mouseout", function(d) {
         svg.selectAll("#tooltip").remove();
-      })
-    }
+      });
 
-function lineChart(dataset, svg, sW, cD, x2, padding) {
+  svg.append("text")
+    .attr("x", 5)
+    .attr("y", (cD + 30))
+    .style("font-size", "0.75vw")
+    .style("font-style","italic")
+    .text("Waste production by industry, 2018 - 2019 (tonnes)");
+}
 
-  // Scales are likely incorrect currently - revisit upon issue
-  var xScale = d3.scaleOrdinal()
-    .domain([
-      d3.min(dataset, function(d) {return d.TimePeriod;}),
-      d3.max(dataset, function(d) {return d.TimePeriod;})
-    ])
+function lineChart(dataset, svg, sW, cD, x2, padding) { // Plastic production per year, 2016 - 2019 (millions of tonnes)
+
+  var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
+
+  var xScale = d3.scalePoint()  // Took a while to realise: had to feed an array into this scale for it to work correctly
+    .domain(xData)
     .range([(x2 + padding), (x2 + cD) - padding]);
 
   var yScale = d3.scaleLinear()
-    .domain([540, d3.max(dataset, function(d) {console.log(parseInt(d.HouseholdWaste) + 200); return (parseInt(d.HouseholdWaste) + 20);})])
+    .domain([2, d3.max(dataset, function(d) {console.log(parseInt(d.PlasticWaste)); return (parseInt(d.PlasticWaste) + 0.4);})])
     .range([cD - padding, padding / 2]);
 
   var line = d3.line()
     .x(function(d) {return xScale(d.TimePeriod);})
-    .y(function(d) {return yScale(d.HouseholdWaste) + padding / 2;});
+    .y(function(d) {return yScale(d.PlasticWaste)});
 
   svg.append("path")
     .datum(dataset)
@@ -74,7 +96,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding) {
     .scale(xScale);
 
   var yAxis = d3.axisLeft()
-    .ticks(7)
+    .ticks(5)
     .scale(yScale);
 
   svg.append("g")
@@ -84,6 +106,13 @@ function lineChart(dataset, svg, sW, cD, x2, padding) {
   svg.append("g")
       .attr("transform", "translate(" + (x2 + padding) + ", 0)")
       .call(yAxis);
+
+  svg.append("text")
+    .attr("x", x2)
+    .attr("y", (cD + 30))
+    .style("font-size", "0.75vw")
+    .style("font-style","italic")
+    .text("Plastic waste production, 2016 - 2019 (per million tonnes)");
 }
 
 function bubbleChart(svg, sW, cD) {
@@ -93,15 +122,13 @@ function bubbleChart(svg, sW, cD) {
 function init() {
 
   var sW = document.getElementById('sub-vis').clientWidth;  // Width changes depending on monitor used - this ensures correct value is fetched
-  var cD = 0.25 * sW;  // Each chart is allocated 20% of svg Width - remainder is used for gaps between
+  var cD = 0.25 * sW;  // Each chart is allocated 25% of svg Width - remainder is used for gaps between
 
   console.log(cD);
 
-  // Currently lots of repetitive code - will resolve this after SVGs are implemented through classes
-
   var svg = d3.selectAll("#sub-vis")
     .append("svg")
-    .attr("viewBox","0, 0 " + sW + " 400");
+    .attr("viewBox","0, 0 " + sW + " " + (cD + 50));
 
     svg.append("rect")
       .attr("x", 1)
@@ -130,13 +157,13 @@ function init() {
     .style("stroke","black")
     .style("stroke-width","1.5");
 
-  d3.csv("data/pieChart.csv").then(function(data) {
+  d3.csv("dataset/pieChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
     pieChart(dataset, cD, svg);
   })
 
-  d3.csv("data/lineChart.csv").then(function(data) {
+  d3.csv("dataset/lineChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
     lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later

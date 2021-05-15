@@ -89,10 +89,4 @@ nav li a:hover {
 #lChart {
   text-align: center;
   display: block;
-
-.other-vis {
-  display: flex;
-  height: 300px;
-  width: 50%;
-  margin: 0 auto;
 }
