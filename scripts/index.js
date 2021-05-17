@@ -34,27 +34,12 @@ function pieChart(dataset, cD, svg) {    // waste production of each sector 2018
           return arc(d, i);
       })
       .on("mouseover", function(event, d, i) {
-
-
-        console.log(d3.select());
-
-        var text;
-
-          for(j = 0; j < dataset.length; j++)
-            if(dataset[j].WasteProduced != d.value) {
-              console.log(dataset[j].Sector);
-              console.log(d.value);
-              text = "f";
-            }
-
-
         svg.append("text")
           .attr("id","tooltip")
           .attr("x", 20)
           .attr("y", 20)
-          .attr("text", text);
+          .text(d.value + " tonnes")
         })
-
       .on("mouseout", function(d) {
         svg.selectAll("#tooltip").remove();
       });
