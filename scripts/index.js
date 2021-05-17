@@ -83,11 +83,16 @@ function lineChart(dataset, svg, sW, cD, x2, padding) { // Plastic production pe
     .x(function(d) {return xScale(d.TimePeriod);})
     .y(function(d) {return yScale(d.PlasticWaste)});
 
+  var area = d3.area()
+    .x(function(d) {return xScale(d.TimePeriod);})
+    .y0(function() {return (cD - padding);})
+    .y1(function(d) {return yScale(d.PlasticWaste);});
+
   svg.append("path")
     .datum(dataset)
-    .attr("class","line")
-    .attr("d",line)
-    .style("fill","none")
+    .attr("class","area")
+    .attr("d",area)
+    .style("fill","slategrey")
     .style("stroke","slategrey")
     .style("stroke-width","1");
 
