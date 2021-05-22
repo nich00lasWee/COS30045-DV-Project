@@ -16,6 +16,7 @@
   <body>
     <nav>
       <h1>Title</h1>
+      <br>
       <ul>
         <li><a href="index.html">Overview</a></li>
         <li><a href="personal.html">Personal / Household</a></li>
@@ -26,40 +27,33 @@
     <div class="vis-container">
       <div class="main-vis">
         <!--Grouped bar graph: https://www.d3-graph-gallery.com/graph/barplot_grouped_basicWide.html-->
-        
+
         <div id="overview-vis">
           <script src="scripts/overview.js"></script>
         </div>
-        <!--iframe id="overview-vis">
-          <script src="scripts/overview.js"></script>
-        </iframe-->
+        <iframe id="overview-vis">
+
+        </iframe>
+      </div>
+      <br>
+      <div class="sub-vis" id="sub-vis">
+          <g id="charts"></g>
       </div>
 
-      <div class="sub-vis">
-        
-        <div class="sub-vis-home">
-          <div class="other-vis">
-            <p id="svg"></p>
-          </div>
-          <iframe src=""></iframe>
-          <button class="zoom" type="button" name="zoom">
-            <i class="fas fa-expand-alt"></i>
-          </button>
-          <p id="pieChart"></p>
-        </div>
+      <!-- Commented out for now, will implement later -->
 
-        <div class="sub-vis-home">
-          <iframe src=""></iframe>
-          <button class="zoom" type="button" name="zoom">
-            <i class="fas fa-expand-alt"></i>
-          </button>
-        </div>
+    <!--        <button class="zoom" type="button" name="zoom">
+              <i class="fas fa-expand-alt"></i>
+            </button> -->
 
-        <div class="sub-vis-home">
-          <iframe src=""></iframe>
-          <button class="zoom" type="button" name="zoom">
-            <i class="fas fa-expand-alt"></i>
-          </button>
+
+    <!--        <button class="zoom" type="button" name="zoom">
+              <i class="fas fa-expand-alt"></i>
+            </button> -->
+
+    <!--        <button class="zoom" type="button" name="zoom">
+              <i class="fas fa-expand-alt"></i>
+            </button> -->
         </div>
 
       </div>

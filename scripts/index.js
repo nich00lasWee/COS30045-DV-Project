@@ -1,24 +1,13 @@
-function pieChart(dataset, svg, h, cW) {
+function pieChart(dataset, cD, svg) {    // waste production of each sector 2018-2019 (in tonnes)
 
-  var sector = dataset.map(function(d) {return d.Sector})
-  var waste = dataset.map(function(d) {return d.WasteProduced})
-
-  sector.pop(); // remove null values
-  waste.pop();
-
-  svg.append("rect")
-    .attr("x", 1)
-    .attr("y", 1)
-    .attr("width", cW - 1)
-    .attr("height", h - 1); // prevents svg from clipping rectangle
-
-  svg.selectAll("rect")
-    .style("fill","white")
-    .style("stroke","black")
-    .style("stroke-width","1.5");
-
-  var outerRadius = cW / 2.3;  // reduces size of chart
+  var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
+
+  var padding = cD / 15.07826086956522; // acheives equal spacing
+
+  var sectors = dataset.map(function(d) {return d.Sector;});
+
+
 
   var arc = d3.arc()
     .outerRadius(outerRadius)
@@ -27,12 +16,13 @@ function pieChart(dataset, svg, h, cW) {
   var pie = d3.pie();
 
   var arcs = svg.selectAll("g.arc")
-    .data(pie(waste))
+    .data(pie(dataset.map(function(d) {
+      return d.WasteProduced;
+    })))
     .enter()
     .append("g")
     .attr("class","arc")
-    .attr("transform","translate(" + (outerRadius + 20) + "," + (outerRadius + 20) + ")");  // position in center of rectangle
-
+    .attr("transform","translate(" + (outerRadius + padding) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -48,73 +38,128 @@ function pieChart(dataset, svg, h, cW) {
           .attr("id","tooltip")
           .attr("x", 20)
           .attr("y", 20)
-          .text(d.value)
-          for(j = 0; j < sector.length; j++) {
-            if(j == i)                            // FIX LATER: Should detect when position of data is equivalent to position of loop
-              console.log(sector[i]);             // Logs the relevant data. Will eventually display the relevant data (sector) via tooltip
-          };
-      })
+          .text(d.value + " tonnes")
+        })
       .on("mouseout", function(d) {
-        svg.selectAll("text").remove();
-      })
-    }
+        svg.selectAll("#tooltip").remove();
+      });
 
-function lineChart(svg, h, cW) {
-
-  svg.append("rect")
-    .attr("x", cW + 223.5)
-    .attr("y", 1)
-    .attr("width", cW - 1)
-    .attr("height", h - 1); // prevents svg from clipping rectangle
-
-  svg.selectAll("rect")
-    .style("fill","white")
-    .style("stroke","black")
-    .style("stroke-width","1.5");
+  svg.append("text")
+    .attr("x", 5)
+    .attr("y", (cD + 30))
+    .style("font-size", "0.75vw")
+    .style("font-style","italic")
+    .text("Waste production by industry, 2018 - 2019 (tonnes)");
 }
 
-function bubbleChart(svg, h, sW, cW) {
+function lineChart(dataset, svg, sW, cD, x2, padding) { // Plastic production per year, 2016 - 2019 (millions of tonnes)
 
-  svg.append("rect")
-    .attr("x", (sW - cW - 1))
-    .attr("y", 1)
-    .attr("width", cW - 1)
-    .attr("height", h - 1); // prevents svg from clipping rectangle
+  var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
-  svg.selectAll("rect")
-    .style("fill","white")
-    .style("stroke","black")
-    .style("stroke-width","1.5");
+  var xScale = d3.scalePoint()  // Took a while to realise: had to feed an array into this scale for it to work correctly
+    .domain(xData)
+    .range([(x2 + padding), (x2 + cD) - padding]);
+
+  var yScale = d3.scaleLinear()
+    .domain([2, d3.max(dataset, function(d) {console.log(parseInt(d.PlasticWaste)); return (parseInt(d.PlasticWaste) + 0.4);})])
+    .range([cD - padding, padding / 2]);
+
+  var line = d3.line()
+    .x(function(d) {return xScale(d.TimePeriod);})
+    .y(function(d) {return yScale(d.PlasticWaste)});
+
+  var area = d3.area()
+    .x(function(d) {return xScale(d.TimePeriod);})
+    .y0(function() {return (cD - padding);})
+    .y1(function(d) {return yScale(d.PlasticWaste);});
+
+  svg.append("path")
+    .datum(dataset)
+    .attr("class","area")
+    .attr("d",area)
+    .style("fill","slategrey")
+    .style("stroke","slategrey")
+    .style("stroke-width","1");
+
+  var xAxis = d3.axisBottom()
+    .ticks(4)
+    .scale(xScale);
+
+  var yAxis = d3.axisLeft()
+    .ticks(5)
+    .scale(yScale);
+
+  svg.append("g")
+      .attr("transform", "translate(0, " + (cD - padding) + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("transform", "translate(" + (x2 + padding) + ", 0)")
+      .call(yAxis);
+
+  svg.append("text")
+    .attr("x", x2)
+    .attr("y", (cD + 30))
+    .style("font-size", "0.75vw")
+    .style("font-style","italic")
+    .text("Plastic waste production, 2016 - 2019 (per million tonnes)");
+}
+
+function bubbleChart(svg, sW, cD) {
+  // Will be implemented later
 }
 
 function init() {
 
-  var sW = 1411;  // width of <div>
-  var cW = 320;   // width of charts
-  var h = 320;
+  var sW = document.getElementById('sub-vis').clientWidth;  // Width changes depending on monitor used - this ensures correct value is fetched
+  var cD = 0.25 * sW;  // Each chart is allocated 25% of svg Width - remainder is used for gaps between
 
-  var svg = d3.selectAll("#svg")
+  console.log(cD);
+
+  var svg = d3.selectAll("#sub-vis")
     .append("svg")
-    .attr("width", sW)
-    .attr("height", h );
+    .attr("viewBox","0, 0 " + sW + " " + (cD + 50));
 
-  d3.csv("data/pieChart.csv").then(function(data) {
-    console.log(data);
-    var dataset = data;
-    pieChart(dataset, svg, h, cW);
-  })
+    svg.append("rect")
+      .attr("x", 1)
+      .attr("y", 1)
+      .attr("width", cD - 1)
+      .attr("height", cD - 1); // prevents svg from clipping rectangle
 
-  lineChart(svg, h, cW);
+  var temp = (sW - cD); // determines box location depending on svg width (as set by div)
+  var x2 = temp / 2;   // calculates x coordinate by finding middle point of temp
+  var padding = 40;
 
-  bubbleChart(svg, h, sW, cW);
-    }
+  svg.append("rect")
+    .attr("x", x2)
+    .attr("y", 1)
+    .attr("width", cD - 1)
+    .attr("height", cD - 1); // prevents svg from clipping rectangle
 
-function init() {
+  svg.append("rect")
+    .attr("x", temp)
+    .attr("y", 1)
+    .attr("width", cD - 1)
+    .attr("height", cD - 1); // prevents svg from clipping rectangle
+
+  svg.selectAll("rect")
+    .style("fill","white")
+    .style("stroke","black")
+    .style("stroke-width","1.5");
+
   d3.csv("dataset/pieChart.csv").then(function(data) {
     console.log(data);
     var dataset = data;
-    pieChart(dataset);
+    pieChart(dataset, cD, svg);
   })
+
+  d3.csv("dataset/lineChart.csv").then(function(data) {
+    console.log(data);
+    var dataset = data;
+    lineChart(dataset, svg, sW, cD, x2, padding);  // forgive the amount of parameters, I'll condense this later
+ })
+
+//  bubbleChart(svg, sW, cD);
 }
 
 window.onload = init;
