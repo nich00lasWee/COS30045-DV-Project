@@ -48,14 +48,15 @@ nav li a:hover {
 }
 
 /* Content */
+
 .vis-container {
-  text-align: center;
   #height: 500px;
   width: 75%;
   margin: 0 auto;
 }
 
 .main-vis {
+  text-align: center;
   #height: 300px;
   width: auto;
 }
@@ -66,14 +67,12 @@ nav li a:hover {
 }
 
 .sub-vis {
-  display: flex;
   justify-content: space-between;
   height: 300px;
-  #margin: 0 auto;
+  width: 100%;
 }
 
 .sub-vis-home {
-  width: 32.5%;
   height: 200px;
 }
 
@@ -87,9 +86,7 @@ nav li a:hover {
   float: right;
 }
 
-.other-vis {
-  display: flex;
-  height: 300px;
-  width: 50%;
-  margin: 0 auto;
+#lChart {
+  text-align: center;
+  display: block;
 }
