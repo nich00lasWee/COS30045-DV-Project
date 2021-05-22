@@ -4,17 +4,12 @@
 
 /* Suggested theme colours: #A3F564, #9be564 */
 
-h1, h2 {
-  #text-align: center;
-}
-
 /* Navigation Bar */
 nav {
   overflow: hidden;
 }
 
 nav h1 {
-  #display: inline-block;
   overflow: visible;
   float: left;
   padding: 0px 10px;
@@ -50,14 +45,13 @@ nav li a:hover {
 /* Content */
 .vis-container {
   text-align: center;
-  #height: 500px;
   width: 75%;
   margin: 0 auto;
 }
 
 .main-vis {
-  #height: 300px;
   width: auto;
+  border: 1px solid red;
 }
 
 .main-vis iframe {
@@ -69,7 +63,8 @@ nav li a:hover {
   display: flex;
   justify-content: space-between;
   height: 300px;
-  #margin: 0 auto;
+  margin-top: 15%;
+  border: 1px solid red;
 }
 
 .sub-vis-home {
