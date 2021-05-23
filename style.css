@@ -42,22 +42,10 @@ nav li a:hover {
   border-bottom: 3px solid #A3F564;
 }
 
-/* Content */
-
+/* Main */
 .vis-container {
   text-align: center;
-  width: 75%;
   margin: 0 auto;
-}
-
-.main-vis {
-  width: auto;
-  border: 1px solid red;
-}
-
-.main-vis iframe {
-  width: 100%;
-  height: 450px;
 }
 
 .sub-vis {

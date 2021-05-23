@@ -1,0 +1,172 @@
+[
+ {
+   "Category": "Masonry materials",
+   "Values": [
+     {
+       "year": "2016 - 17",
+       "value": 20176890
+     },
+     {
+      "year": "2017 - 18",
+      "value": 22067707
+    },
+    {
+      "year": "2018 - 19",
+      "value": 22739103
+    }
+   ]
+ },
+ {
+   "Category": "Metals",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 5902306
+    },
+    {
+     "year": "2017 - 18",
+     "value": 6568139
+   },
+   {
+     "year": "2018 - 19",
+     "value": 6627751
+   }
+  ]
+ },
+ {
+   "Category": "Organics",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 13837283
+    },
+    {
+     "year": "2017 - 18",
+     "value": 14640364
+   },
+   {
+     "year": "2018 - 19",
+     "value": 15252043
+   }
+  ]
+ },
+ {
+   "Category": "Paper & Cardboard",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 5606530
+    },
+    {
+     "year": "2017 - 18",
+     "value": 6024650
+   },
+   {
+     "year": "2018 - 19",
+     "value": 5884719
+   }
+  ]
+ },
+ {
+   "Category": "Plastics",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 2629683
+    },
+    {
+     "year": "2017 - 18",
+     "value": 2498609
+   },
+   {
+     "year": "2018 - 19",
+     "value": 2549636
+   }
+  ]
+ },
+ {
+   "Category": "Glass",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 1016020
+    },
+    {
+     "year": "2017 - 18",
+     "value": 1170589
+   },
+   {
+     "year": "2018 - 19",
+     "value": 1158189
+   }
+  ]
+ },
+ {
+   "Category": "Textiles, leather & rubber",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 780838
+    },
+    {
+     "year": "2017 - 18",
+     "value": 772117
+   },
+   {
+     "year": "2018 - 19",
+     "value": 783229
+   }
+  ]
+ },
+ {
+   "Category": "Hazardous waste",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 6495415
+    },
+    {
+     "year": "2017 - 18",
+     "value": 7878552
+   },
+   {
+     "year": "2018 - 19",
+     "value": 7986069
+   }
+  ]
+ },
+ {
+   "Category": "Ash",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 12223554
+    },
+    {
+     "year": "2017 - 18",
+     "value": 12339676
+   },
+   {
+     "year": "2018 - 19",
+     "value": 12529224
+   }
+  ]
+ },
+ {
+   "Category": "Other",
+   "Values": [
+    {
+      "year": "2016 - 17",
+      "value": 327455
+    },
+    {
+     "year": "2017 - 18",
+     "value": 238673
+   },
+   {
+     "year": "2018 - 19",
+     "value": 284945
+   }
+  ]
+ }
+]

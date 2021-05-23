@@ -1,81 +1,145 @@
 function groupedBarGraph() {
 
-  var w = 950;
-  var h = 450;
+  // ["#399283", "#4aeeb6", "#0e503e", "#8ae1f9", "#4443b4", "#dfcfe7", "#a50fa9", "#b687f8", "#4b425e", "#ef66f0"]
 
-  var svg = d3.select("#overview-vis")
-              .append("svg")
-              .attr("width", w)
-              .attr("height", h)
-              .style("background-color", "grey")
-              //.append("g")
-              //.attr("transform", "translate(10, 10)");
+  //  Method source: https://bl.ocks.org/bricedev/0d95074b6d83a77dc3ad
+  //  https://stackoverflow.com/questions/20947488/d3-grouped-bar-chart-how-to-rotate-the-text-of-x-axis-ticks
 
-  // doesn't work with waste material data atm, need more research on original codebase
-  d3.csv("../dataset/Waste Materials by Category.csv").then(function(data) {
+  var margin = {top: 25, right: 20, bottom: 100, left: 100};
+  var width = 1500 - margin.left - margin.right;
+  var height = 650 - margin.top - margin.bottom;
+
+  var x0 = d3v3.scale.ordinal().rangeRoundBands([0, width], .1);
+
+  var x1 = d3v3.scale.ordinal();
+
+  var y = d3v3.scale.linear().range([height, margin.top]);
+
+  var xAxis = d3v3.svg.axis()
+                      .scale(x0)
+                      .tickSize(0)
+                      .orient("bottom");
+
+  var yAxis = d3v3.svg.axis()
+                      .scale(y)
+                      .orient("left");
+
+  var color = d3v3.scale.ordinal().range(["#b5e48c", "#99d98c", "#76c893"]);
+
+  var svg = d3v3.select('#overview-vis')
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .style("border", "2.5px solid #e3e3e3")
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  d3v3.json("dataset/waste.json", function(error, data) {
+
+    if (error) throw error;
+
+    var wasteCategory = data.map(function(d) { return d.Category; });   // store waste material categories
+    var yearCategory = data[0].Values.map(function(d) { return d.year; });  // store year periods
+
+    x0.domain(wasteCategory);
+    x1.domain(yearCategory).rangeRoundBands([0, x0.rangeBand()]);
+    y.domain([0, d3v3.max(data, function(Category) { 
+      return d3v3.max(Category.Values, function(d) { 
+        return d.value; }); 
+      })
+    ]);
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")
+        .style("font-size", "15")
+        .style("text-anchor", "middle")
+        .attr("dx", "-.75em")
+        .attr("dy", "2.25em")
+        .attr("transform", "rotate(-15)");
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .style('opacity','0')
+        .call(yAxis)
+        .append("text")
+        .style("font-size", "17.5")
+        .attr("dx", "-1.5em")
+        .attr("dy", ".5em")
+        .style("text-anchor", "middle")
+        .style('font-weight','bold')
+        .text("Amount (in kg)");
+
+    svg.select('.y')
+        .transition()
+        .duration(500)
+        .delay(1300)
+        .style('opacity','1');
+
+    //  Grouped bar chart
+    var slice = svg.selectAll(".slice")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("class", "g")
+                    .attr("transform", function(d) {
+                      return "translate(" + x0(d.Category) + ",0)";
+                    });
     
-    // var subgroups = data.columns.slice();
+    slice.selectAll("rect")
+          .data(function(d) { return d.Values; })
+          .enter()
+          .append("rect")
+          .attr("width", x1.rangeBand())
+          .attr("x", function(d) { return x1(d.year); })
+          .style("fill", function(d) { return color(d.year) })
+          .attr("y", function(d) { return y(0); })
+          .attr("height", function(d) { return height - y(0); })
+          .on("mouseover", function(d) {
+              d3v3.select(this).style("fill", d3v3.rgb(color(d.year)).darker(1));
+          })
+          .on("mouseout", function(d) {
+              d3v3.select(this).style("fill", color(d.year));
+          });
 
-    // var groups = d3.map(data, function(d) {return d.group}).keys();
+    slice.selectAll("rect")
+          .transition()
+          .delay(function (d) {return Math.random()*1000;})
+          .duration(1000)
+          .attr("y", function(d) { return y(d.value); })
+          .attr("height", function(d) { return height - y(d.value); });
+    
+    //  Legend
+    var legend = svg.selectAll(".legend")
+                    .data(data[0].Values.map(function(d) { return d.year; }).reverse())
+                    .enter()
+                    .append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
+                    .style("opacity","0");
 
-    // var x = d3.scaleBand()
-    //           .domain(groups)
-    //           .range([0, w])
-    //           .padding([0.2]);
+    legend.append("rect")
+          .attr("x", width - 18)
+          .attr("width", 18)
+          .attr("height", 18)
+          .style("fill", function(d) { return color(d); });
 
-    // svg.append("g")
-    //     .attr("transform", "translate(0," + h + ")")
-    //     .call(d3.axisBottom(x)
-    //             .tickSize(0));
+    legend.append("text")
+          .attr("x", width - 24)
+          .attr("y", 9)
+          .attr("dy", ".35em")
+          .style('font-weight','bold')
+          .style("text-anchor", "end")
+          .text(function(d) {return d; });
 
-    // var y = d3.scaleLinear()
-    //           .domain([0, 40])
-    //           .range([ h, 0 ]);
-
-    // svg.append("g")
-    //     .call(d3.axisLeft(y));
-
-    // var xSubgroup = d3.scaleBand()
-    //                   .domain(subgroups)
-    //                   .range([0, x.bandwidth()])
-    //                   .padding([0.05]);
-
-    // // color palette = one color per subgroup
-    // var color = d3.scaleOrdinal()
-    //               .domain(subgroups)
-    //               .range(['#e41a1c','#377eb8','#4daf4a','#e41a1c','#377eb8','#4daf4a','#e41a1c','#377eb8','#4daf4a','#e41a1c']);
-
-    // svg.append("g")
-    //   .selectAll("g")
-    //   // Enter in data = loop group per group
-    //   .data(data)
-    //   .enter()
-    //   .append("g")
-    //   .attr("transform", function(d) {
-    //     return "translate(" + x(d.group) + ",0)";
-    //   })
-    //   .selectAll("rect")
-    //   .data(function(d) {
-    //     return subgroups.map(function(key) { 
-    //       return {key: key, value: d[key]};
-    //     });
-    //   })
-    //   .enter()
-    //   .append("rect")
-    //   .attr("x", function(d) {
-    //     return xSubgroup(d.key);
-    //   })
-    //   .attr("y", function(d) {
-    //     return y(d.value);
-    //   })
-    //   .attr("width", xSubgroup.bandwidth())
-    //   .attr("height", function(d) {
-    //     return h - y(d.value);
-    //   })
-    //   .attr("fill", function(d) {
-    //     return color(d.key);
-    //   });
-
+    legend.transition()
+          .duration(500)
+          .delay(function(d,i){ 
+            return 1300 + 100 * i;
+          })
+          .style("opacity","1");
   })
 }
 
