@@ -5,7 +5,7 @@ function groupedBarGraph() {
   //  Method source: https://bl.ocks.org/bricedev/0d95074b6d83a77dc3ad
   //  https://stackoverflow.com/questions/20947488/d3-grouped-bar-chart-how-to-rotate-the-text-of-x-axis-ticks
 
-  var margin = {top: 25, right: 20, bottom: 100, left: 100};
+  var margin = {top: 25, right: 20, bottom: 75, left: 100};
   var width = 1500 - margin.left - margin.right;
   var height = 650 - margin.top - margin.bottom;
 
@@ -39,6 +39,7 @@ function groupedBarGraph() {
     if (error) throw error;
 
     var wasteCategory = data.map(function(d) { return d.Category; });   // store waste material categories
+    
     var yearCategory = data[0].Values.map(function(d) { return d.year; });  // store year periods
 
     x0.domain(wasteCategory);
@@ -88,6 +89,16 @@ function groupedBarGraph() {
                       return "translate(" + x0(d.Category) + ",0)";
                     });
     
+    var tooltip = d3v3.select("#overview-vis")
+                      .append("div")
+                      .style("position", "absolute")
+                      .style("visibility", "hidden")
+                      .style("background-color", "white")
+                      .style("border", "solid")
+                      .style("border-width", "1px")
+                      .style("border-radius", "5px")
+                      .style("padding", "10px");
+
     slice.selectAll("rect")
           .data(function(d) { return d.Values; })
           .enter()
@@ -98,10 +109,20 @@ function groupedBarGraph() {
           .attr("y", function(d) { return y(0); })
           .attr("height", function(d) { return height - y(0); })
           .on("mouseover", function(d) {
-              d3v3.select(this).style("fill", d3v3.rgb(color(d.year)).darker(1));
+              d3v3.select(this).style("fill", d3v3.rgb(color(d.year)).darker(1));  
+          })
+          .on("mousemove", function(d) {
+            var year = "<li>" + d.year + ": ";
+            var value = d.value.toLocaleString() + "</li>";
+            return (tooltip.style("visibility", "visible")
+                            .html(year + "<b>" + value + "</b>")
+                            .style("top", (d3v3.event.pageY - 10) + "px")
+                            .style("left", (d3v3.event.pageX + 20) + "px")
+                            );
           })
           .on("mouseout", function(d) {
               d3v3.select(this).style("fill", color(d.year));
+              return tooltip.style("visibility", "hidden");
           });
 
     slice.selectAll("rect")
@@ -117,17 +138,17 @@ function groupedBarGraph() {
                     .enter()
                     .append("g")
                     .attr("class", "legend")
-                    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
+                    .attr("transform", function(d, i) { return "translate(0," + i * 22 + ")"; })
                     .style("opacity","0");
 
     legend.append("rect")
-          .attr("x", width - 18)
-          .attr("width", 18)
-          .attr("height", 18)
+          .attr("x", width - 20)
+          .attr("width", 20)
+          .attr("height", 20)
           .style("fill", function(d) { return color(d); });
 
     legend.append("text")
-          .attr("x", width - 24)
+          .attr("x", width - 28)
           .attr("y", 9)
           .attr("dy", ".35em")
           .style('font-weight','bold')
@@ -136,7 +157,7 @@ function groupedBarGraph() {
 
     legend.transition()
           .duration(500)
-          .delay(function(d,i){ 
+          .delay(function(d, i){ 
             return 1300 + 100 * i;
           })
           .style("opacity","1");

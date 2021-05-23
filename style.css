@@ -43,8 +43,13 @@ nav li a:hover {
 }
 
 /* Main */
-.vis-container {
+#overview-vis {
   text-align: center;
+  margin: 0 auto;
+}
+
+#overview-text {
+  width: 1500px;
   margin: 0 auto;
 }
 
