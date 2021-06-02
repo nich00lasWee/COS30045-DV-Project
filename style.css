@@ -56,7 +56,9 @@ nav li a:hover {
 .sub-vis {
   justify-content: space-between;
   height: 300px;
-  width: 100%;
+  /* width: 75%;  Removed for now to match bar graph */
+  width: 1500px;
+  margin: 0 auto;
 }
 
 .sub-vis-home {
@@ -72,6 +74,7 @@ nav li a:hover {
 .zoom {
   float: right;
 }
+
 
 #lChart {
   text-align: center;
