@@ -52,7 +52,6 @@ function pieChart(dataset, cD, svg, tooltip) {    // waste production of each se
         sector = dataset[j].Sector;
         waste = d.value + " tonnes";
       }
-
     var coordinates = d3.pointer(event);
     return (tooltip.style("visibility","visible")
               .html("<b>" + sector + "</b>" + "<br>" + waste.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -148,12 +147,12 @@ function bubbleChart(svg, sW, cD) {
 function init() {
 
   var pageWidth = document.getElementById("overview-vis").clientWidth;
-  var sW = (pageWidth / 100) * 57.38332058148432;
+  var sW = document.getElementById("sub-vis").clientWidth;
   var cD = 0.25 * sW;                                             // Each chart is allocated 25% of svg Width - remainder is used for gaps between
 
   var svg = d3.selectAll("#sub-vis")
     .append("svg")
-    .attr("viewBox","0, 0, " + sW + ", " + (cD + 50));
+    .attr("viewBox","0 0 " + sW + " " + (cD + 50));
 
   svg.append("rect")
     .attr("x", 1)
@@ -200,8 +199,8 @@ function init() {
       .style("display","inline-block")
       .style("width",cD + "px")
       .style("position","relative")
-      .style("top","100px")
-      .style("left",((pageWidth - 1500) / 2) + "px");
+      .style("top","60px")
+      .style("left",((pageWidth - sW) / 2) + "px");
 
     var dataset = data;
     pieChart(dataset, cD, svg, tooltip);
@@ -213,8 +212,8 @@ function init() {
       .style("display","inline-block")
       .style("width",cD + "px")
       .style("position","relative")
-      .style("top","100px")
-      .style("left", (cD * 1.95) + "px");
+      .style("top","90px")
+      .style("left", (cD + cD * 0.875) + "px");
 
     var dataset = data;
     lineChart(dataset, svg, sW, cD, x2, padding, tooltip);  // forgive the amount of parameters, I'll condense this later

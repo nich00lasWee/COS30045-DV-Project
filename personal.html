@@ -6,9 +6,11 @@
         <meta name="description" content="Data Visualisation Project"/>
         <meta name="keywords" content="HTML, CSS, D3, CSV"/>
         <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
         <link rel="stylesheet" href="style.css">
+        <script src="https://d3js.org/d3.v6.min.js"></script>
       </header>
-    
+
       <body>
         <h1 class="title">Title Placeholder</h1>
         <nav>
@@ -18,4 +20,19 @@
             <li><a href="recycle.html">Recycle</a></li>
           </ul>
         </nav>
+
+        <div class="vis-container">
+          </div class = "main-vis">
+            <div id="overview-vis"></div>          
+            <div id="overview-text">
+              <h2>Figure 1: Total Recorded MSW vs. MSW Sent to Landfill</h2>
+              <p>The visualisation above depicts the total amount of recorded Municipal Waste (MSW) between the years 2014-2019, plotted against the amount of which was sent to landfill.
+              Both amounts appear to be gradually, albeit slowly, decreasing. Exact values can be seen by hovering over the relevant dot points.</p>
+              <p><i>Source: Australian National Waste Report 2020</i></p>
+            </div>
+          </div>
+        </div>
+
+        <footer></footer>
+        <script src="scripts/personal.js"></script>
 </html>

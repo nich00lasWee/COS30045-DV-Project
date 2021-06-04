@@ -5,6 +5,8 @@
 /* Suggested theme colours: #A3F564, #9be564 */
 
 /* Navigation Bar */
+
+
 nav {
   overflow: hidden;
 }
@@ -53,7 +55,7 @@ nav li a:hover {
   margin: 0 auto;
 }
 
-.sub-vis {
+#sub-vis {
   justify-content: space-between;
   height: 300px;
   /* width: 75%;  Removed for now to match bar graph */
