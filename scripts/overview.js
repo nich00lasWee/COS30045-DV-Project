@@ -26,7 +26,7 @@ function groupedBarGraph() {
 
   var color = d3v3.scale.ordinal().range(["#b5e48c", "#99d98c", "#76c893"]);
 
-  var svg = d3v3.select('#overview-vis')
+  var svg = d3v3.select('.overview-vis')
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -89,7 +89,7 @@ function groupedBarGraph() {
                       return "translate(" + x0(d.Category) + ",0)";
                     });
     
-    var tooltip = d3v3.select("#overview-vis")
+    var tooltip = d3v3.select(".overview-vis")
                       .append("div")
                       .style("position", "absolute")
                       .style("visibility", "hidden")
@@ -109,16 +109,16 @@ function groupedBarGraph() {
           .attr("y", function(d) { return y(0); })
           .attr("height", function(d) { return height - y(0); })
           .on("mouseover", function(d) {
-              d3v3.select(this).style("fill", d3v3.rgb(color(d.year)).darker(1));  
+              d3v3.select(this).style("fill", d3v3.rgb(color(d.year)).darker(1));
+              
           })
           .on("mousemove", function(d) {
             var year = "<li>" + d.year + ": ";
-            var value = d.value.toLocaleString() + "</li>";
-            return (tooltip.style("visibility", "visible")
-                            .html(year + "<b>" + value + "</b>")
-                            .style("top", (d3v3.event.pageY - 10) + "px")
-                            .style("left", (d3v3.event.pageX + 20) + "px")
-                            );
+              var value = d.value.toLocaleString() + "</li>";
+              return (tooltip.style("visibility", "visible")
+                              .html(year + "<b>" + value + "</b>")
+                              .style("top", (d3v3.event.pageY - 10) + "px")
+                              .style("left", (d3v3.event.pageX + 20) + "px"));
           })
           .on("mouseout", function(d) {
               d3v3.select(this).style("fill", color(d.year));

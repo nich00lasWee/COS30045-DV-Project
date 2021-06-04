@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <header>
-        <title>Personal Impact</title>
-        <meta charset="utf-8"/>
-        <meta name="description" content="Data Visualisation Project"/>
-        <meta name="keywords" content="HTML, CSS, D3, CSV"/>
-        <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
-        <link rel="stylesheet" href="style.css">
-      </header>
+  <header>
+    <title>Personal Impact</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Data Visualisation Project"/>
+    <meta name="keywords" content="HTML, CSS, D3, CSV"/>
+    <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </header>
+  
+  <body>
+    <nav>
+      <h1 class="title">Title</h1>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="personal.html">Personal / Household</a></li>
+        <li><a href="recycle.html">Recycle</a></li>
+      </ul>
+    </nav>
     
-      <body>
-        <h1 class="title">Title Placeholder</h1>
-        <nav>
-          <ul>
-            <li><a href="index.html">Overview</a></li>
-            <li><a href="personal.html">Personal / Household</a></li>
-            <li><a href="recycle.html">Recycle</a></li>
-          </ul>
-        </nav>
+    <div class="vis-container">
+
+      <div class="main-vis">
+        <div class="overview-vis">
+          <script src="scripts/personal.js"></script>
+        </div>
+        <div class="overview-text"></div>
+      </div>
+      
+      <div class="sub-vis">
+
+      </div>
+    </div>
+  </body>
 </html>
