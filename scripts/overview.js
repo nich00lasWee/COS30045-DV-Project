@@ -26,7 +26,7 @@ function groupedBarGraph() {
 
   var color = d3v3.scale.ordinal().range(["#b5e48c", "#99d98c", "#76c893"]);
 
-  var svg = d3v3.select('.overview-vis')
+  var svg = d3v3.select('#overview-vis')
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -39,14 +39,14 @@ function groupedBarGraph() {
     if (error) throw error;
 
     var wasteCategory = data.map(function(d) { return d.Category; });   // store waste material categories
-    
+
     var yearCategory = data[0].Values.map(function(d) { return d.year; });  // store year periods
 
     x0.domain(wasteCategory);
     x1.domain(yearCategory).rangeRoundBands([0, x0.rangeBand()]);
-    y.domain([0, d3v3.max(data, function(Category) { 
-      return d3v3.max(Category.Values, function(d) { 
-        return d.value; }); 
+    y.domain([0, d3v3.max(data, function(Category) {
+      return d3v3.max(Category.Values, function(d) {
+        return d.value; });
       })
     ]);
 
@@ -88,8 +88,8 @@ function groupedBarGraph() {
                     .attr("transform", function(d) {
                       return "translate(" + x0(d.Category) + ",0)";
                     });
-    
-    var tooltip = d3v3.select(".overview-vis")
+
+    var tooltip = d3v3.select("#overview-vis")
                       .append("div")
                       .style("position", "absolute")
                       .style("visibility", "hidden")
@@ -110,7 +110,6 @@ function groupedBarGraph() {
           .attr("height", function(d) { return height - y(0); })
           .on("mouseover", function(d) {
               d3v3.select(this).style("fill", d3v3.rgb(color(d.year)).darker(1));
-              
           })
           .on("mousemove", function(d) {
             var year = "<li>" + d.year + ": ";
@@ -131,7 +130,7 @@ function groupedBarGraph() {
           .duration(1000)
           .attr("y", function(d) { return y(d.value); })
           .attr("height", function(d) { return height - y(d.value); });
-    
+
     //  Legend
     var legend = svg.selectAll(".legend")
                     .data(data[0].Values.map(function(d) { return d.year; }).reverse())
@@ -153,11 +152,11 @@ function groupedBarGraph() {
           .attr("dy", ".35em")
           .style('font-weight','bold')
           .style("text-anchor", "end")
-          .text(function(d) {return d; });
+          .text(function(d) {return d;});
 
     legend.transition()
           .duration(500)
-          .delay(function(d, i){ 
+          .delay(function(d, i){
             return 1300 + 100 * i;
           })
           .style("opacity","1");

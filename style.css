@@ -5,6 +5,8 @@
 /* Suggested theme colours: #A3F564, #9be564 */
 
 /* Navigation Bar */
+
+
 nav {
   overflow: hidden;
 }
@@ -64,10 +66,12 @@ nav li a:hover {
   
 }
 
-.sub-vis {
+#sub-vis {
   justify-content: space-between;
   height: 300px;
-  width: 100%;
+  /* width: 75%;  Removed for now to match bar graph */
+  width: 1500px;
+  margin: 0 auto;
 }
 
 .sub-vis-home {
@@ -83,6 +87,7 @@ nav li a:hover {
 .zoom {
   float: right;
 }
+
 
 #lChart {
   text-align: center;
