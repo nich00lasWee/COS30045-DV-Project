@@ -17,6 +17,7 @@ function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of eac
     .enter()
     .append("g")
     .attr("class","arc")
+
     .attr("transform","translate(" + (outerRadius + padding + x1) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
   // Likely to change later
@@ -188,6 +189,7 @@ function init() {
     .attr("width", cD - 1)
     .attr("height", cD - 1);
 
+
   svg.selectAll("rect")
     .style("fill","white")
     .style("stroke","#e3e3e3")
@@ -203,7 +205,7 @@ function init() {
       .style("border-width", "1px")
       .style("border-radius", "5px")
       .style("padding", "10px");
-
+  
   var start = (pageWidth - sW) / 2;
 
   d3.csv("dataset/pieChart.csv").then(function(data) {
@@ -218,6 +220,7 @@ function init() {
 
     var dataset = data;
     pieChart(dataset, cD, svg, x1, tooltip);
+
   })
 
   d3.csv("dataset/lineChart.csv").then(function(data) {
@@ -228,6 +231,7 @@ function init() {
       .style("position","relative")
       .style("top","90px")
       .style("left", (start * 2.09) + "px");  // Good enough for now
+
 
     var dataset = data;
     lineChart(dataset, svg, sW, cD, x2, padding, tooltip);  // forgive the amount of parameters, I'll condense this later

@@ -45,14 +45,25 @@ nav li a:hover {
 }
 
 /* Main */
-#overview-vis {
-  text-align: center;
+.vis-container {
+  width: 1500px;
   margin: 0 auto;
 }
 
-#overview-text {
-  width: 1500px;
-  margin: 0 auto;
+.overview-vis {
+  text-align: center;
+}
+
+.y.axis path, .y.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path {
+  #display: none;
+  #stroke-width: 0.5px;
+  
 }
 
 #sub-vis {

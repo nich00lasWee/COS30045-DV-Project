@@ -113,12 +113,11 @@ function groupedBarGraph() {
           })
           .on("mousemove", function(d) {
             var year = "<li>" + d.year + ": ";
-            var value = d.value.toLocaleString() + "</li>";
-            return (tooltip.style("visibility", "visible")
-                            .html(year + "<b>" + value + "</b>")
-                            .style("top", (d3v3.event.pageY - 10) + "px")
-                            .style("left", (d3v3.event.pageX + 20) + "px")
-                            );
+              var value = d.value.toLocaleString() + "</li>";
+              return (tooltip.style("visibility", "visible")
+                              .html(year + "<b>" + value + "</b>")
+                              .style("top", (d3v3.event.pageY - 10) + "px")
+                              .style("left", (d3v3.event.pageX + 20) + "px"));
           })
           .on("mouseout", function(d) {
               d3v3.select(this).style("fill", color(d.year));
