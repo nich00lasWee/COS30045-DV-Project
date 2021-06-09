@@ -10,25 +10,43 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v6.min.js"></script>
   </header>
-
-  <body>
-    <nav>
-      <h1>Title</h1><br>
-      <ul>
-        <li><a href="index.html">Overview</a></li>
-        <li><a href="personal.html">Personal / Household</a></li>
-        <li><a href="recycle.html">Recycle</a></li>
-      </ul>
-    </nav><br>
-
-    <div class="vis-container">
-      <div class = "main-vis">
-        <div id="overview-vis"></div>          
-        <div id="overview-text">
-          <h2>Figure 1: Total Recorded MSW vs. MSW Sent to Landfill</h2>
-          <p>The visualisation above depicts the total amount of recorded Municipal Waste (MSW) between the years 2014-2019, plotted against the amount of which was sent to landfill.
-          Both amounts appear to be gradually, albeit slowly, decreasing. Exact values can be seen by hovering over the relevant dot points.</p>
-          <p><i>Source: Australian National Waste Report 2020</i></p>
+      <body>
+        <h1>Vis for Environment</h1>
+        <nav>
+          <ul>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="personal.html">Personal / Household</a></li>
+            <li><a href="recycle.html">Recycle</a></li>
+          </ul>
+        </nav>
+        <br>
+        <div class="vis-container">
+          <div class = "main-vis">
+            <div id="overview-vis">
+            </div>
+            <div id="overview-text">
+              <h2>Figure 1: Total Recorded MSW vs. MSW Sent to Landfill</h2>
+              <p>The visualisation above depicts the total amount of recorded Municipal Solid Waste (MSW) between the years 2014-2019, plotted against the amount of which was sent to landfill.
+              Both amounts appear to be gradually, albeit slowly, decreasing. Exact values can be seen by hovering over the relevant dot points.</p>
+              <p><i>Source: Australian National Waste Report 2020</i></p>
+            </div>
+          </div>
+          <br>
+          <div id="sub-vis"></div>
+          <div id="text">
+            <div id="scatter-text">
+              <h3>Figure 2: Government Expenditure on Waste vs. Waste Intensity</h3>
+              <p>The scatterplot above shows recorded Government Expenditure on Waste Disposal against the calculated Waste Intensity - that is, the cost of processing and disposing of a single tonne - across the 2016 - 2019 period.
+              As can be seen, as the Expenditure value increase, the relevant Intensity value appears to decrease, likely due to recent changes in how waste is handled. Exact values can be seen by hovering over the relevant dot points.</p>
+              <p><i>Source: Australian Bureau of Statistics</i></p>
+            </div>
+            <div id="bar-text">
+              <h3>Figure 3: Amount of Food Organics Waste from Households, 2016 - 2019</h3>
+              <p>The bar graph above displays the total amount of Food Organics waste originating from Households, across the years 2016 - 2017. As shown on the graph, the value sharply decreased from the 2016-2017 and 2017-2018
+              time period, before experiencing a smaller, but still dramatic decrease to the 2018-2019 period. Exact values can be seen by hovering over the relevant bar.<p>
+              <p><i>Source: Australian Bureau of Statistics</i></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

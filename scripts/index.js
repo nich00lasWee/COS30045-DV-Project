@@ -1,4 +1,4 @@
-function pieChart(dataset, cD, svg, tooltip) {    // waste production of each sector 2018-2019 (in tonnes)
+function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of each sector 2018-2019 (in tonnes)
 
   var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
@@ -17,7 +17,8 @@ function pieChart(dataset, cD, svg, tooltip) {    // waste production of each se
     .enter()
     .append("g")
     .attr("class","arc")
-    .attr("transform","translate(" + (outerRadius + padding) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
+
+    .attr("transform","translate(" + (outerRadius + padding + x1) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
   // Likely to change later
   var color = d3.scaleOrdinal()
@@ -76,8 +77,8 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
     .range([(x2 + padding), (x2 + cD) - padding]);
 
   var yScale = d3.scaleLinear()
-    .domain([2, d3.max(dataset, function(d) {console.log(parseInt(d.PlasticWaste)); return (parseInt(d.PlasticWaste) + 0.4);})])
-    .range([cD - padding, padding / 2]);
+    .domain([2, d3.max(dataset, function(d) {return (parseInt(d.PlasticWaste) + 0.4);})])
+    .range([cD - padding, (padding / 2) + 30]);
 
   var line = d3.line()
     .x(function(d) {return xScale(d.TimePeriod);})
@@ -85,7 +86,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
 
   var area = d3.area()
     .x(function(d) {return xScale(d.TimePeriod);})
-    .y0(function() {return (cD - padding);})
+    .y0(function() {return (cD - padding) - 15;})
     .y1(function(d) {return yScale(d.PlasticWaste);});
 
   svg.append("path")
@@ -112,11 +113,11 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
     .scale(yScale);
 
   svg.append("g")
-      .attr("transform", "translate(0, " + (cD - padding) + ")")
+      .attr("transform", "translate(0, " + (cD - padding - 15) + ")")
       .call(xAxis);
 
   svg.append("g")
-      .attr("transform", "translate(" + (x2 + padding) + ", 0)")
+      .attr("transform", "translate(" + (x2 + padding) + ", -15)")
       .call(yAxis);
 
   svg.selectAll("myCircles")
@@ -128,6 +129,8 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
       .attr("cy", function(d) {return yScale(d.PlasticWaste);})
       .attr("r",4.5)
     .on("mouseover", function(event, d) {
+      var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);
+      d3.select(this).attr("fill",darkColor);
       var total = d.TotalWaste + " tonnes";
       return (tooltip.style("visibility","visible")
                 .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -136,12 +139,27 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
     })
     .on("mouseout", function(d) {
       svg.selectAll("#tooltip").remove();
+      var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);
+      d3.select(this).attr("fill",lightColor)
       return (tooltip.style("visibility","hidden"));
     });
-}
 
-function bubbleChart(svg, sW, cD) {
-  // Will be implemented later
+    var captions = svg.append("g")
+      .attr("transform","translate(0,0)");
+
+    captions.append("text")
+      .attr("x", x2 + 20)
+      .attr("y", 20)
+      .style("font-size","12.5px")
+      .style("font-weight","bold")
+      .text("Amount (mill tonnes)");
+
+    captions.append("text")
+      .attr("x", x2 + padding + 110)
+      .attr("y", cD - (padding / 2))
+      .style("font-size","12.5px")
+      .style("font-weight","bold")
+      .text("Time Period");
 }
 
 function init() {
@@ -154,14 +172,15 @@ function init() {
     .append("svg")
     .attr("viewBox","0 0 " + sW + " " + (cD + 50));
 
+  var x1 = sW * 0.125;  // X Position of first visualisation
+
   svg.append("rect")
-    .attr("x", 1)
+    .attr("x", x1)
     .attr("y", 1)
     .attr("width", cD)
     .attr("height", cD - 1);  // prevents svg from clipping rectangle
 
-  var temp = (sW - cD);       // determines box location depending on svg width (as set by div)
-  var x2 = temp / 2;          // calculates x coordinate by finding middle point of temp
+  var x2 = sW * 0.625;
   var padding = 40;
 
   svg.append("rect")
@@ -170,15 +189,10 @@ function init() {
     .attr("width", cD - 1)
     .attr("height", cD - 1);
 
-  svg.append("rect")
-    .attr("x", temp)
-    .attr("y", 1)
-    .attr("width", cD - 1)
-    .attr("height", cD - 1);  // prevents svg from clipping rectangle
 
   svg.selectAll("rect")
     .style("fill","white")
-    .style("stroke","black")
+    .style("stroke","#e3e3e3")
     .style("stroke-width","1.5");
 
   // Prepares tooltip for later use
@@ -192,6 +206,8 @@ function init() {
       .style("border-radius", "5px")
       .style("padding", "10px");
 
+  var start = (pageWidth - sW) / 2;
+
   d3.csv("dataset/pieChart.csv").then(function(data) {
 
     // Currently lacks responsiveness
@@ -200,10 +216,10 @@ function init() {
       .style("width",cD + "px")
       .style("position","relative")
       .style("top","60px")
-      .style("left",((pageWidth - sW) / 2) + "px");
+      .style("left",(start + x1) + "px");
 
     var dataset = data;
-    pieChart(dataset, cD, svg, tooltip);
+    pieChart(dataset, cD, svg, x1, tooltip);
   })
 
   d3.csv("dataset/lineChart.csv").then(function(data) {
@@ -213,13 +229,11 @@ function init() {
       .style("width",cD + "px")
       .style("position","relative")
       .style("top","90px")
-      .style("left", (cD + cD * 0.875) + "px");
+      .style("left", (x2 - cD) + "px");  // Good enough for now
 
     var dataset = data;
     lineChart(dataset, svg, sW, cD, x2, padding, tooltip);  // forgive the amount of parameters, I'll condense this later
  })
-
-//  bubbleChart(svg, sW, cD);
 }
 
 window.onload = init;

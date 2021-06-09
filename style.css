@@ -18,6 +18,7 @@ nav h1 {
 }
 
 nav ul {
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   width: 50%;
@@ -119,4 +120,10 @@ nav li a:hover {
   display: block;
 }
 
-/* Personal */
+#sub-vis {
+  justify-content: space-between;
+  height: 300px;
+  /* width: 75%;  Removed for now to match bar graph */
+  width: 1500px;
+  margin: 0 auto;
+}
