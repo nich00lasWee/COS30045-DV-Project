@@ -265,7 +265,7 @@ function subVis()
       .style("width",cD + "px")
       .style("position","relative")
       .style("top","70px")
-      .style("left", (start * 2.09) + "px");  // Good enough for now
+      .style("left", (x2 - cD) + "px");  // Good enough for now
 
     var dataset = data;
     bar(dataset, svg, cD, x2, tooltip);
@@ -368,8 +368,6 @@ function scatter(dataset, svg, cD, x1, tooltip)
 
 function bar(dataset, svg, cD, x2, tooltip)
 {
-    console.log(dataset);
-
     var padding = 40;
     var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
@@ -398,10 +396,8 @@ function bar(dataset, svg, cD, x2, tooltip)
         .attr("transform", "translate(" + (x2 + padding) + ", -15)")
         .call(yAxis);
 
-  console.log(dataset[0]);
   var yRange = yScale.range();
   var yHeight = yRange[0] - yRange[1];
-  console.log(yHeight);
 
   svg.selectAll(".rect")
     .data(dataset)

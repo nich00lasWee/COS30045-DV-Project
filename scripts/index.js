@@ -77,7 +77,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
     .range([(x2 + padding), (x2 + cD) - padding]);
 
   var yScale = d3.scaleLinear()
-    .domain([2, d3.max(dataset, function(d) {console.log(parseInt(d.PlasticWaste)); return (parseInt(d.PlasticWaste) + 0.4);})])
+    .domain([2, d3.max(dataset, function(d) {return (parseInt(d.PlasticWaste) + 0.4);})])
     .range([cD - padding, (padding / 2) + 30]);
 
   var line = d3.line()
@@ -205,7 +205,7 @@ function init() {
       .style("border-width", "1px")
       .style("border-radius", "5px")
       .style("padding", "10px");
-  
+
   var start = (pageWidth - sW) / 2;
 
   d3.csv("dataset/pieChart.csv").then(function(data) {
@@ -220,7 +220,6 @@ function init() {
 
     var dataset = data;
     pieChart(dataset, cD, svg, x1, tooltip);
-
   })
 
   d3.csv("dataset/lineChart.csv").then(function(data) {
@@ -230,8 +229,7 @@ function init() {
       .style("width",cD + "px")
       .style("position","relative")
       .style("top","90px")
-      .style("left", (start * 2.09) + "px");  // Good enough for now
-
+      .style("left", (x2 - cD) + "px");  // Good enough for now
 
     var dataset = data;
     lineChart(dataset, svg, sW, cD, x2, padding, tooltip);  // forgive the amount of parameters, I'll condense this later
