@@ -6,7 +6,6 @@
 
 /* Navigation Bar */
 
-
 nav {
   overflow: hidden;
 }
@@ -20,6 +19,7 @@ nav h1 {
 }
 
 nav ul {
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   width: 50%;
@@ -63,15 +63,10 @@ nav li a:hover {
 .y.axis path {
   #display: none;
   #stroke-width: 0.5px;
-  
 }
 
-#sub-vis {
-  justify-content: space-between;
-  height: 300px;
-  /* width: 75%;  Removed for now to match bar graph */
-  width: 1500px;
-  margin: 0 auto;
+.title {
+  text-align: center;
 }
 
 .sub-vis-home {
@@ -88,8 +83,15 @@ nav li a:hover {
   float: right;
 }
 
-
 #lChart {
   text-align: center;
   display: block;
+}
+
+#sub-vis {
+  justify-content: space-between;
+  height: 300px;
+  /* width: 75%;  Removed for now to match bar graph */
+  width: 1500px;
+  margin: 0 auto;
 }
