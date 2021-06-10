@@ -5,6 +5,11 @@ function groupedBarGraph() {
 
   // ["#399283", "#4aeeb6", "#0e503e", "#8ae1f9", "#4443b4", "#dfcfe7", "#a50fa9", "#b687f8", "#4b425e", "#ef66f0"]
 
+  // Properties for SVG
+  var margin = {top: 25, right: 20, bottom: 75, left: 100};
+  var width = 1500 - margin.left - margin.right;
+  var height = 650 - margin.top - margin.bottom;  
+
   // Ensure the bars scale relatively to dataset
   var x0 = v3.scale.ordinal().rangeRoundBands([0, width], .1);
   var x1 = v3.scale.ordinal();

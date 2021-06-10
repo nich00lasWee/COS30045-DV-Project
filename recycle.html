@@ -1,60 +1,67 @@
 <!DOCTYPE html>
-<html>
-    <header>
-        <title>Recycling</title>
-        <meta charset="utf-8"/>
-        <meta name="description" content="Data Visualisation Project"/>
-        <meta name="keywords" content="HTML, CSS, D3, CSV"/>
-        <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-      </header>
+<html lang="en">
+  <header>
+    <title>Recycling</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Data Visualisation Project"/>
+    <meta name="keywords" content="HTML, CSS, D3, CSV"/>
+    <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
 
-      <body>
-        <h1 class="title">Title Placeholder</h1>
-        <nav>
-          <ul>
-            <li><a href="index.html">Overview</a></li>
-            <li><a href="personal.html">Personal / Household</a></li>
-            <li><a href="recycle.html">Recycle</a></li>
-          </ul>
-        </nav>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+      var v4 = window.d3;
+      window.d3 = null;
+    </script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 
-        <div class="vis-container">
-          <div class="main-vis">
-            <div id="recycle-overview">
-              <script src="scripts/stackedBar.js"></script>
-            </div>
-            <div class="zoomBtn">
-              <i class="fa fa-search-plus" id="zoom-in"></i>
-              <i class="fa fa-search-minus" id="zoom-out"></i>
-            </div>
-            <!--div id="overview-text">
-              <h2>Waste Recycled by Material in Australia</h2>
-              <p>The visualisation above illustrates the waste generated in Australia between the year 2016 and 2019. The amount of waste shows an increasing trend on most occasions. </p>
-              <p><i>Source: Australian Bureau of Statistics</i></p>
-            </div-->
-          </div><br>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+  </header>
 
-          <div id="sub-vis"></div>
-          <div id="text">
-            <div id="area-text">
-              <h3>Total Recorded Waste vs. Total Recycled Waste, 2016 - 2019</h3>
-              <p>The area chart above displays the total recorded amount of waste recorded in relation to the total amount of waste recycled. As can be seen, generally half of recorded waste appears to be recycled,
-              despite the gradually increasing amount each year. Exact values can be seen by hovering over the relevant dot points.</p>
-              <p><i>Source: Australian Bureau of Statistics</i></p>
-            </div>
-            <div id="pie-text">
-              <h3>Fate of Recorded Waste, 2018 - 2019</h3>
-              <p>The pie chart above illustrates the various fates of recorded waste during the 2018-2019 period. As displayed, Recycling (highlighted in green) accounts for almost two thirds of all recorded waste,
-              followed by landfill which nearly consist of the remaining third. Other output streams and their exact amount of waste can be seen by hovering over each segment.</p>
-              <p><i>Source: Australian Bureau of Statistics</i></p>
-            </div>
-          </div>
+  <body>
+    <h1>Vis for Environment</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="personal.html">Personal / Household</a></li>
+        <li><a href="recycle.html">Recycle</a></li>
+      </ul>
+    </nav>
+
+    <div class="vis-container">
+      <div class="main-vis">
+        <div id="recycle-overview">
+          <script src="scripts/stackedBar.js"></script>
         </div>
+        <div class="zoomBtn">
+          <i class="fa fa-search-plus" id="zoom-in"></i>
+          <i class="fa fa-search-minus" id="zoom-out"></i>
+        </div>
+        <!--div id="overview-text">
+          <h2>Waste Recycled by Material in Australia</h2>
+          <p>The visualisation above illustrates the waste generated in Australia between the year 2016 and 2019. The amount of waste shows an increasing trend on most occasions. </p>
+          <p><i>Source: Australian Bureau of Statistics</i></p>
+        </div-->
+      </div><br>
 
+      <div id="sub-vis">
+
+      </div>
+      <div id="text">
+        <div id="area-text">
+          <h3>Total Recorded Waste vs. Total Recycled Waste, 2016 - 2019</h3>
+          <p>The area chart above displays the total recorded amount of waste recorded in relation to the total amount of waste recycled. As can be seen, generally half of recorded waste appears to be recycled,
+          despite the gradually increasing amount each year. Exact values can be seen by hovering over the relevant dot points.</p>
+          <p><i>Source: Australian Bureau of Statistics</i></p>
+        </div>
+        <div id="pie-text">
+          <h3>Fate of Recorded Waste, 2018 - 2019</h3>
+          <p>The pie chart above illustrates the various fates of recorded waste during the 2018-2019 period. As displayed, Recycling (highlighted in green) accounts for almost two thirds of all recorded waste,
+          followed by landfill which nearly consist of the remaining third. Other output streams and their exact amount of waste can be seen by hovering over each segment.</p>
+          <p><i>Source: Australian Bureau of Statistics</i></p>
+        </div>
+      </div>
+    </div>
     <script src="scripts/recycle2.js"></script>
     </body>
 </html>
