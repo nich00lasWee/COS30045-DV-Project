@@ -95,13 +95,13 @@ function stackedBarChart() {
                         .style("box-shadow", "0px 1.5px #d3d3d3")
                         .style("border-radius", "5px")
                         .style("padding", "10px");
-        
+
         // Loads data into individual bars
         chart.selectAll("rect")
             .data(function(d) { return d; })
             .enter()
             .append("rect")
-            .attr("x", function(d) { return x(d.data.Material); })     
+            .attr("x", function(d) { return x(d.data.Material); })
             .attr("y", function(d) { return y(0); })    // 0 returned for y since transition effect is used
             .attr("height", function(d) { return height - y(0); })  // Same here for height
             .attr("width", x.bandwidth())
@@ -123,17 +123,17 @@ function stackedBarChart() {
                 for (i = 1; i < key.length - 1; i++) {
                     if (val[i] == value) year += key[i];
                 }
-                
-                // Shows the tooltip (next to mouse pointer) 
+
+                // Shows the tooltip (next to mouse pointer)
                 tooltip.style("visibility", "visible")
                         .html("<b>" + year + "</b><br/>Amount: " + value.toLocaleString())
                         .style("top", yPosition + "px")
-                        .style("left", xPosition + "px");                        
+                        .style("left", xPosition + "px");
             })
             .on("mouseout", function() {
                 return tooltip.style("visibility", "hidden");   // Hides tooltip when bars are not in focus
             });
-        
+
         // Transition effect for loading the bars
         chart.selectAll("rect")
             .transition()
@@ -141,9 +141,9 @@ function stackedBarChart() {
                 return i * 100;
             })
             .duration(1000)
-            .attr("y", function(d) { return y(d[1]); })           
+            .attr("y", function(d) { return y(d[1]); })
             .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-       
+
         // Initialise legend on the top-right corner of the svg
         var legend = svg.append("g")
                         .style('font-weight','bold')
@@ -154,7 +154,7 @@ function stackedBarChart() {
                         .append("g")
                         .attr("transform", function(d, i) { return "translate(0," + i * 22 + ")"; })
                         .style("opacity","0");
-        
+
         // Legend colours
         legend.append("rect")
                 .attr("x", width - 20)
@@ -162,14 +162,14 @@ function stackedBarChart() {
                 .attr("height", 20)
                 .style("padding", 10)
                 .attr("fill", color);
-        
+
         // Legend labels
         legend.append("text")
                 .attr("x", width - 28)
                 .attr("y", 9)
                 .attr("dy", ".35em")
                 .text(function(d) { return d; });
-        
+
         // Transition effect for loading legend
         legend.transition()
                 .duration(500)
@@ -177,7 +177,7 @@ function stackedBarChart() {
                     return 1300 + 100 * i;
                 })
                 .style("opacity","1");
-        
+
         // Scale factor
         var scale = [1, 4, 8, 16, 32, 48];
         var scaleIndex = 0;
@@ -185,7 +185,7 @@ function stackedBarChart() {
         var offset = 3;
 
         var total = v4.max(data, function(d) { return d.total; })
-        
+
         // Scale the bars when zoom in button is clicked
         v4.select("#zoom-in").on("click", function() {
             if (scaleIndex != scale.length - 1) {
@@ -202,14 +202,14 @@ function stackedBarChart() {
                 .select("#label")
                 .attr("dy", labelY + "em");
 
-            // Update bars height 
+            // Update bars height
             chart.selectAll("rect")
                 .transition()
                 .duration(500)
                 .attr("y", function(d) { return y(d[1]); })
                 .attr("height", function(d) { return y(d[0]) - y(d[1]); })
         });
-        
+
         // Scale the bars when zoom out button is clicked
         v4.select("#zoom-out").on("click", function() {
             if (scaleIndex != 0) {

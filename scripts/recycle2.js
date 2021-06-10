@@ -35,7 +35,7 @@ function area(dataset, svg, cD, x1, tooltip)
 
   var area1 = d3.area()
     .x(function(d) {return xScale(d.TimePeriod) + 1;})
-    .y0(function() {return (cD - padding) - 15 + 0.25;})
+    .y0(function() {return (cD - padding) - 15 + 0.25;})          // Prevents area from clipping scale
     .y1(function(d) {return yScale(d.Waste) - (padding / 2);});
 
   var line2 = d3.line()
@@ -44,7 +44,7 @@ function area(dataset, svg, cD, x1, tooltip)
 
   var area2 = d3.area()
     .x(function(d) {return xScale(d.TimePeriod) + 1;})
-    .y0(function() {return (cD - padding) - 15 + 0.25;})
+    .y0(function() {return (cD - padding) - 15 + 0.25;})        // Prevents line from clipping scale
     .y1(function(d) {return yScale(d.Recycled) - (padding / 2);});
 
   // Waste
@@ -80,6 +80,8 @@ function area(dataset, svg, cD, x1, tooltip)
     .style("stroke-width","3");
 
   // Wasted
+
+  // Dot Points and interactivity
   svg.selectAll("myCircles")
     .data(dataset)
     .enter()
@@ -104,6 +106,8 @@ function area(dataset, svg, cD, x1, tooltip)
     });
 
   // Recycled
+
+  // Dot Points and interactivity
   svg.selectAll("myCircles")
     .data(dataset)
     .enter()
@@ -127,6 +131,7 @@ function area(dataset, svg, cD, x1, tooltip)
       return (tooltip.style("visibility","hidden"));
     });
 
+  // Legend
   var legend = svg.append("g")
     .attr("class","legend")
     .attr("transform","translate(0, 0)");
@@ -163,6 +168,7 @@ function area(dataset, svg, cD, x1, tooltip)
     .style("font-size","12.5px")
     .text("Total Waste Recycled");
 
+  // Scale Captions
   var captions = svg.append("g")
     .attr("transform","translate(0,0)");
 
@@ -183,7 +189,7 @@ function area(dataset, svg, cD, x1, tooltip)
 
 function pie(dataset, svg, cD, x2, tooltip)
 {
-  var outerRadius = cD / 2.3;  // reduces size of chart
+  var outerRadius = cD / 2.3;           // reduces size of chart
   var innerRadius = 0;
   var padding = cD / 15.07826086956522; // acheives equal spacing
 
@@ -202,12 +208,12 @@ function pie(dataset, svg, cD, x2, tooltip)
     .attr("class","arc")
     .attr("transform","translate(" + (outerRadius + padding + x2) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
-  // Likely to change later
+  // Colors
   var color = d3.scaleOrdinal()
       .range(["#6E8F8E",
           "#6A8187",
           "#68737A",
-          "#b5e48c",  // < - Recycling
+          "#b5e48c",  // < - Recycling, lighter color
           "#63666A",
           "#5A5A5A"      ]);
 
@@ -219,27 +225,28 @@ function pie(dataset, svg, cD, x2, tooltip)
           return arc(d, i);
       });
 
+  // Tooltip/interactivity
   path.on("mouseover", function(event, d, i) {
-    var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);
+    var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);   // Darkens color slightly
     d3.select(this).attr("fill",darkColor);
   })
   .on("mousemove", function(event, d) {
-    var sector;
-    var waste;
+    var sector;                                 // Fate of Waste
 
+    // Matches fate to relevant amount and stores in variable
     for(j = 0; j < dataset.length; j++)
       if(dataset[j].Amount == d.value)
         sector = dataset[j].Fate;
     var coordinates = d3.pointer(event);
     return (tooltip.style("visibility","visible")
-              .html("<b>" + sector + "</b>" + "<br>" + d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " tonnes")
+              .html("<b>" + sector + "</b>" + "<br>" + d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " tonnes")  // Adds commas between numbers
               .style("top", event.pageY + "px")
               .style("left", (event.pageX + 20) + "px")
               );
   })
   .on("mouseout", function(d) {
     svg.selectAll("#tooltip").remove();
-    var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);
+    var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);  // Return to default color
     d3.select(this).attr("fill",lightColor)
     return (tooltip.style("visibility","hidden"));
   });
@@ -247,13 +254,13 @@ function pie(dataset, svg, cD, x2, tooltip)
 
 function init()
 {
-  var pageWidth = 1500; // will correct later when work is combined
+  var pageWidth = 1500;
   var sW = document.getElementById("sub-vis").clientWidth;
-  var cD = 0.25 * sW;                                             // Each chart is allocated 25% of svg Width - remainder is used for gaps between
+  var cD = 0.25 * sW;                                           // Each chart is allocated 25% of svg Width - remainder is used for gaps between
 
   var svg = d3.selectAll("#sub-vis")
     .append("svg")
-    .attr("viewBox","0 0 " + sW + " " + (cD + 50));
+    .attr("viewBox","0 0 " + sW + " " + (cD + 50)); // Uses width of page and height of visualisations, viewbox for responsiveness
 
   var x1 = sW * 0.125;  // X Position of first visualisation
 
@@ -290,6 +297,7 @@ function init()
 
   d3.csv("dataset/recycle-area.csv").then(function(data) {
 
+    // Positions text
     d3.select('#area-text')
       .style("display","inline-block")
       .style("width",cD + "px")
@@ -303,6 +311,7 @@ function init()
 
     d3.csv("dataset/recycle-pie.csv").then(function(data) {
 
+      // Positions text
       d3.select('#pie-text')
         .style("display","inline-block")
         .style("width",cD + "px")

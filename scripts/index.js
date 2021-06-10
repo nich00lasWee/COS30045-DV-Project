@@ -1,4 +1,4 @@
-function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of each sector 2018-2019 (in tonnes)
+function pieChart(dataset, cD, svg, x1, tooltip) {
 
   var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
@@ -19,7 +19,7 @@ function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of eac
     .attr("class","arc")
     .attr("transform","translate(" + (outerRadius + padding + x1) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
-  // Likely to change later
+  // Colors
   var color = d3.scaleOrdinal()
       .range(["#487f82",
           "#4bada1",
@@ -38,6 +38,7 @@ function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of eac
           return arc(d, i);
       });
 
+  // Tooltip/interactivity
   path.on("mouseover", function(event, d, i) {
     var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);
     d3.select(this).attr("fill",darkColor);
@@ -68,6 +69,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
 
   var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
+  // Scales and axies
   var xScale = d3.scalePoint()
     .domain(xData)
     .range([(x2 + padding), (x2 + cD) - padding]);
@@ -76,6 +78,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
     .domain([2, d3.max(dataset, function(d) {return (parseInt(d.PlasticWaste) + 0.4);})])
     .range([cD - padding, (padding / 2) + 30]);
 
+  // Line and area
   var line = d3.line()
     .x(function(d) {return xScale(d.TimePeriod);})
     .y(function(d) {return yScale(d.PlasticWaste) - (padding / 2)});
@@ -116,6 +119,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
       .attr("transform", "translate(" + (x2 + padding) + ", -15)")
       .call(yAxis);
 
+  // Dot points and interactivity
   svg.selectAll("myCircles")
     .data(dataset)
     .enter()
@@ -140,6 +144,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
       return (tooltip.style("visibility","hidden"));
     });
 
+    // Figure captions
     var captions = svg.append("g")
       .attr("transform","translate(0,0)");
 
@@ -160,7 +165,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
 
 function init() {
 
-  var pageWidth = document.getElementById("overview-vis").clientWidth;
+  var pageWidth = document.getElementById("overview-vis").clientWidth;  // Gets page width
   var sW = document.getElementById("sub-vis").clientWidth;
   var cD = 0.25 * sW;                                             // Each chart is allocated 25% of svg Width - remainder is used for gaps between
 
@@ -205,7 +210,7 @@ function init() {
 
   d3.csv("dataset/pieChart.csv").then(function(data) {
 
-    // Currently lacks responsiveness
+    // Positions text
     d3.select('#pie-text')
       .style("display","inline-block")
       .style("width",cD + "px")
@@ -219,6 +224,7 @@ function init() {
 
   d3.csv("dataset/lineChart.csv").then(function(data) {
 
+    // Positions text
     d3.select("#area-text")
       .style("display","inline-block")
       .style("width",cD + "px")
