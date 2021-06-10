@@ -17,7 +17,6 @@ function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of eac
     .enter()
     .append("g")
     .attr("class","arc")
-
     .attr("transform","translate(" + (outerRadius + padding + x1) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
 
   // Likely to change later
@@ -49,13 +48,10 @@ function pieChart(dataset, cD, svg, x1, tooltip) {    // waste production of eac
 
     for(j = 0; j < dataset.length; j++)
       if(dataset[j].WasteProduced == d.value)
-      {
         sector = dataset[j].Sector;
-        waste = d.value + " tonnes";
-      }
     var coordinates = d3.pointer(event);
     return (tooltip.style("visibility","visible")
-              .html("<b>" + sector + "</b>" + "<br>" + waste.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+              .html("<b>" + sector + "</b>" + "<br>" + d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " tonnes")
               .style("top", event.pageY + "px")
               .style("left", (event.pageX + 20) + "px")
               );

@@ -181,6 +181,70 @@ function area(dataset, svg, cD, x1, tooltip)
     .text("Time Period");
 }
 
+function pie(dataset, svg, cD, x2, tooltip)
+{
+  var outerRadius = cD / 2.3;  // reduces size of chart
+  var innerRadius = 0;
+  var padding = cD / 15.07826086956522; // acheives equal spacing
+
+  var arc = d3.arc()
+    .outerRadius(outerRadius)
+    .innerRadius(innerRadius);
+
+  var pie = d3.pie();
+
+  var arcs = svg.selectAll("g.arc")
+    .data(pie(dataset.map(function(d) {
+      return d.Amount;
+    })))
+    .enter()
+    .append("g")
+    .attr("class","arc")
+    .attr("transform","translate(" + (outerRadius + padding + x2) + "," + (outerRadius + padding) + ")");  // position in center of rectangle
+
+  // Likely to change later
+  var color = d3.scaleOrdinal()
+      .range(["#6E8F8E",
+          "#6A8187",
+          "#68737A",
+          "#b5e48c",  // < - Recycling
+          "#63666A",
+          "#5A5A5A"      ]);
+
+  var path = arcs.append("path")
+      .attr("fill",function(d, i) {
+          return color(i);
+      })
+      .attr("d", function(d, i) {
+          return arc(d, i);
+      });
+
+  path.on("mouseover", function(event, d, i) {
+    var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);
+    d3.select(this).attr("fill",darkColor);
+  })
+  .on("mousemove", function(event, d) {
+    var sector;
+    var waste;
+
+    for(j = 0; j < dataset.length; j++)
+      if(dataset[j].Amount == d.value)
+        sector = dataset[j].Fate;
+    var coordinates = d3.pointer(event);
+    return (tooltip.style("visibility","visible")
+              .html("<b>" + sector + "</b>" + "<br>" + d.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " tonnes")
+              .style("top", event.pageY + "px")
+              .style("left", (event.pageX + 20) + "px")
+              );
+  })
+  .on("mouseout", function(d) {
+    svg.selectAll("#tooltip").remove();
+    var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);
+    d3.select(this).attr("fill",lightColor)
+    return (tooltip.style("visibility","hidden"));
+  });
+}
+
 function init()
 {
   var pageWidth = 1500; // will correct later when work is combined
@@ -237,6 +301,18 @@ function init()
     area(dataset, svg, cD, x1, tooltip);
   });
 
+    d3.csv("dataset/recycle-pie.csv").then(function(data) {
+
+      d3.select('#pie-text')
+        .style("display","inline-block")
+        .style("width",cD + "px")
+        .style("position","relative")
+        .style("top","65px")
+        .style("left", (x2 - cD) + "px");
+
+      var dataset = data;
+      pie(dataset, svg, cD, x2, tooltip);
+    });
 }
 
 window.onload = init;
