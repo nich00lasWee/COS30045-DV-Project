@@ -82,12 +82,12 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
 
   var line = d3.line()
     .x(function(d) {return xScale(d.TimePeriod);})
-    .y(function(d) {return yScale(d.PlasticWaste)});
+    .y(function(d) {return yScale(d.PlasticWaste) - (padding / 2)});
 
   var area = d3.area()
     .x(function(d) {return xScale(d.TimePeriod);})
     .y0(function() {return (cD - padding) - 15;})
-    .y1(function(d) {return yScale(d.PlasticWaste);});
+    .y1(function(d) {return yScale(d.PlasticWaste) - (padding / 2);});
 
   svg.append("path")
     .datum(dataset)
@@ -126,7 +126,7 @@ function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic prod
     .append("circle")
       .attr("fill","#3A8C57")
       .attr("cx", function(d) {return xScale(d.TimePeriod);})
-      .attr("cy", function(d) {return yScale(d.PlasticWaste);})
+      .attr("cy", function(d) {return yScale(d.PlasticWaste) - (padding / 2);})
       .attr("r",4.5)
     .on("mouseover", function(event, d) {
       var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);
@@ -188,7 +188,6 @@ function init() {
     .attr("y", 1)
     .attr("width", cD - 1)
     .attr("height", cD - 1);
-
 
   svg.selectAll("rect")
     .style("fill","white")

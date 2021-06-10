@@ -74,6 +74,11 @@ function main()
     svg.append("path")
       .datum(dataset)
       .attr("class","line")
+      .style("fill","white")
+      .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0)
       .attr("d",line1)
       .style("fill","none")
       .style("stroke","#76c893")
@@ -82,6 +87,10 @@ function main()
     svg.append("path")
       .datum(dataset)
       .attr("class","area")
+      .style("fill","white")
+      .transition()
+        .duration(1000)
+        .attr("stroke-dashoffset", 0)
       .attr("d",area1)
       .style("fill","#b5e48c")
       .style("stroke-width","1");
@@ -89,6 +98,11 @@ function main()
     svg.append("path")
       .datum(dataset)
       .attr("class","line")
+      .style("fill","white")
+      .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0)
       .attr("d",line2)
       .style("fill","none")
       .style("stroke","#5a5a5a")
@@ -97,6 +111,10 @@ function main()
     svg.append("path")
       .datum(dataset)
       .attr("class","area")
+      .style("fill","white")
+      .transition()
+        .duration(1000)
+        .attr("stroke-dashoffset", 0)
       .attr("d",area2)
       .style("fill","#808080")
       .style("stroke-width","1");
@@ -105,10 +123,11 @@ function main()
       .data(dataset)
       .enter()
       .append("circle")
-        .attr("fill","#76c893")
+        .attr("fill","#3A8C57")
         .attr("cx", function(d) {return xScale(d.TimePeriod);})
         .attr("cy", function(d) {return yScale(d.MSW);})
         .attr("r",7)
+
       .on("mouseover", function(event, d) {
         var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(1);
         d3.select(this).attr("fill",darkColor);
@@ -122,7 +141,11 @@ function main()
         d3.select(this).attr("fill","#76c893")
         svg.selectAll("#tooltip").remove();
         return (tooltip.style("visibility","hidden"));
-      });
+      })
+      .style("opacity", 0)
+      .transition()
+      .duration(1000)
+      .style("opacity", 1);
 
     svg.selectAll("myCircles")
       .data(dataset)
@@ -145,7 +168,11 @@ function main()
         d3.select(this).attr("fill","#5a5a5a")
         svg.selectAll("#tooltip").remove();
         return (tooltip.style("visibility","hidden"));
-      });
+      })
+      .style("opacity", 0)
+      .transition()
+      .duration(1000)
+      .style("opacity", 1);
   })
 
   var legend = svg.append("g")
@@ -156,14 +183,22 @@ function main()
     .attr("x", width - 20)
     .attr("width", 20)
     .attr("height", 20)
-    .style("fill", "#76c893");
+    .style("fill", "#76c893")
+    .style("opacity", 0)
+    .transition()
+    .duration(1000)
+    .style("opacity", 1);
 
   legend.append("rect")
     .attr("x", width - 20)
     .attr("y", 23)
     .attr("width", 20)
     .attr("height", 20)
-    .style("fill", "#5a5a5a");
+    .style("fill", "#5a5a5a")
+    .style("opacity", 0)
+    .transition()
+    .duration(1000)
+    .style("opacity", 1);
 
   legend.append("text")
     .attr("x", width - 28)
@@ -171,7 +206,11 @@ function main()
     .attr("dy", ".35em")
     .style('font-weight','bold')
     .style("text-anchor", "end")
-    .text("Recorded MSW");
+    .text("Recorded MSW")
+    .style("opacity", 0)
+    .transition()
+    .duration(1000)
+    .style("opacity", 1);
 
   legend.append("text")
     .attr("x", width - 28)
@@ -179,7 +218,11 @@ function main()
     .attr("dy", ".35em")
     .style('font-weight','bold')
     .style("text-anchor", "end")
-    .text("MSW Sent to Landfill");
+    .text("MSW Sent to Landfill")
+    .style("opacity", 0)
+    .transition()
+    .duration(1000)
+    .style("opacity", 1);
 
   var captions = svg.append("g")
     .attr("class","amount")
@@ -190,14 +233,22 @@ function main()
     .attr("y", 5)
     .style("font-size","17.5px")
     .style("font-weight","bold")
-    .text("Amount (mill tonnes)");
+    .text("Amount (mill tonnes)")
+    .style("opacity", 0)
+    .transition()
+    .duration(1000)
+    .style("opacity", 1);
 
   captions.append("text")
     .attr("x", width / 2.3)
     .attr("y", height + 50)
     .style("font-size","17.5px")
     .style("font-weight","bold")
-    .text("Time Period");
+    .text("Time Period")
+    .style("opacity", 0)
+    .transition()
+    .duration(1000)
+    .style("opacity", 1);
 }
 
 function subVis()
@@ -309,7 +360,7 @@ function scatter(dataset, svg, cD, x1, tooltip)
          return xScale(d.Intensity);
      })
      .attr("cy", function(d) {
-         return yScale(d.Expenditure);
+         return yScale(d.Expenditure) - padding / 2;
      })
      .attr("r", 5)
      .attr("height", function(d) {
@@ -344,7 +395,7 @@ function scatter(dataset, svg, cD, x1, tooltip)
        svg.append("text")
         .text(time[i])
         .attr("x", xData[i] + 12)
-        .attr("y", yData[i])
+        .attr("y", yData[i] - (padding / 2))
         .style("fill","#5a5a5a");
     }
 
