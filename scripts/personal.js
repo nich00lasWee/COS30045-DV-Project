@@ -1,5 +1,6 @@
 function main()
 {
+  // Dimensions
   var margin = {top: 25, right: 20, bottom: 75, left: 100};
   var width = 1500 - margin.left - margin.right;
   var height = 650 - margin.top - margin.bottom;
@@ -15,11 +16,12 @@ function main()
   d3.csv("dataset/personal-vis.csv").then(function(data) {
 
     var dataset = data;
-    var xData = dataset.map(function(d){return d.TimePeriod;});
+    var xData = dataset.map(function(d){return d.TimePeriod;}); // Maps X Data
 
+    // Scales and axies
     var xScale = d3.scalePoint()
       .domain(xData)
-      .range([0,width-75]);
+      .range([0,width-75]); // subtracted for padding reasons
 
     var yScale = d3.scaleLinear()
       .domain([3, d3.max(dataset, function(d) {return (parseInt(d.MSW) + 2);})])
@@ -33,6 +35,7 @@ function main()
       .ticks(15)
       .scale(yScale);
 
+    // Total Municipal Solid Waste
     var line1 = d3.line()
       .x(function(d) {return xScale(d.TimePeriod);})
       .y(function(d) {return yScale(d.MSW);});
@@ -42,6 +45,7 @@ function main()
       .y0(function() {return height;})
       .y1(function(d) {return yScale(d.MSW);});
 
+    // Total Municipal Solid Waste sent to Landfill
     var line2 = d3.line()
       .x(function(d) {return xScale(d.TimePeriod);})
       .y(function(d) {return yScale(d.MSWLandfill);});
@@ -71,11 +75,14 @@ function main()
       .attr("transform", "translate(0, 0)")
       .call(yAxis);
 
+    // Total Municipal Solid Waste
+
+    // Line and area
     svg.append("path")
       .datum(dataset)
       .attr("class","line")
       .style("fill","white")
-      .transition()
+      .transition()                       // Quick transition for fade-in effect, repeated across other elements
         .duration(1000)
         .ease(d3.easeLinear)
         .attr("stroke-dashoffset", 0)
@@ -95,6 +102,9 @@ function main()
       .style("fill","#b5e48c")
       .style("stroke-width","1");
 
+    // Total Municipal Solid Waste sent to Landfill
+
+    // Line and area
     svg.append("path")
       .datum(dataset)
       .attr("class","line")
@@ -119,6 +129,9 @@ function main()
       .style("fill","#808080")
       .style("stroke-width","1");
 
+    // Total Municipal Solid Waste
+
+    // Adds dot points and interactivity
     svg.selectAll("myCircles")
       .data(dataset)
       .enter()
@@ -147,6 +160,9 @@ function main()
       .duration(1000)
       .style("opacity", 1);
 
+    // Total Municipal Solid Waste sent to Landfill
+
+    // Adds dot points and interactivity
     svg.selectAll("myCircles")
       .data(dataset)
       .enter()
@@ -175,6 +191,7 @@ function main()
       .style("opacity", 1);
   })
 
+  // Legend
   var legend = svg.append("g")
     .attr("class","legend")
     .attr("transform","translate(0, 0)");
@@ -224,6 +241,7 @@ function main()
     .duration(1000)
     .style("opacity", 1);
 
+  // Graph captions
   var captions = svg.append("g")
     .attr("class","amount")
     .attr("transform","translate(0,0)");
@@ -253,7 +271,7 @@ function main()
 
 function subVis()
 {
-  var pageWidth = document.getElementById("overview-vis").clientWidth;
+  var pageWidth = document.getElementById("overview-vis").clientWidth;  // width of page
   var sW = document.getElementById("sub-vis").clientWidth;
   var cD = 0.25 * sW;                                             // Each chart is allocated 25% of svg Width - remainder is used for gaps between
 
@@ -298,6 +316,7 @@ function subVis()
 
   d3.csv("dataset/personal-scatter.csv").then(function(data) {
 
+    // Positions text
     d3.select('#scatter-text')
       .style("display","inline-block")
       .style("width",cD + "px")
@@ -311,6 +330,7 @@ function subVis()
 
   d3.csv("dataset/personal-bar.csv").then(function(data) {
 
+    // Positions text
     d3.select("#bar-text")
       .style("display","inline-block")
       .style("width",cD + "px")
@@ -385,7 +405,10 @@ function scatter(dataset, svg, cD, x1, tooltip)
        return (tooltip.style("visibility","hidden"));
      });
 
-    // I didn't want to have to implement text this way, but I struggled to get the method shown in 1.6 to work
+    // I didn't want to have to implement text this way, but I struggled to get the method shown in 1.6 to work.
+    // Essentially appends iterates through each element (mapped to seperate arrays) and loads the corresponding
+    // figure onto the page. Clunky, but functional.
+
     var xData = dataset.map(function(d){return xScale(d.Intensity);});  // Maps X values to array
     var yData = dataset.map(function(d){return yScale(d.Expenditure);});  // Maps Y values to array
     var time = dataset.map(function(d){return d.TimePeriod;});
@@ -399,6 +422,7 @@ function scatter(dataset, svg, cD, x1, tooltip)
         .style("fill","#5a5a5a");
     }
 
+    // Captions
     var captions = svg.append("g")
       .attr("transform","translate(0,0)");
 
@@ -422,6 +446,7 @@ function bar(dataset, svg, cD, x2, tooltip)
     var padding = 40;
     var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
+    // Scales and axies
     var xScale = d3.scaleBand()
       .domain(dataset.map(function(d){return d.TimePeriod;}))
       .range([(x2 + padding), (x2 + cD) - padding])
@@ -440,43 +465,45 @@ function bar(dataset, svg, cD, x2, tooltip)
       .scale(yScale);
 
     svg.append("g")
-        .attr("transform", "translate(0, " + (cD - padding - 15) + ")")
+        .attr("transform", "translate(0, " + (cD - padding - 15) + ")") // Subtracts 15 to make room for captions
         .call(xAxis);
 
     svg.append("g")
         .attr("transform", "translate(" + (x2 + padding) + ", -15)")
         .call(yAxis);
 
-  var yRange = yScale.range();
-  var yHeight = yRange[0] - yRange[1];
+  // Bars
+  var yRange = yScale.range();              // Acquires range
+  var yHeight = yRange[0] - yRange[1];      // Calculates length of yAxis by subtracting start value from end value
 
   svg.selectAll(".rect")
     .data(dataset)
     .enter()
     .append("rect")
       .attr("x",function (d) {return xScale(d.TimePeriod)})
-      .attr("y",function(d) {return yScale(d.FoodWasted) - 15})
+      .attr("y",function(d) {return yScale(d.FoodWasted) - 15}) // Subtracts 15 for padding reaons
       .attr("width",xScale.bandwidth())
-      .attr("height",function(d){return yHeight - yScale(d.FoodWasted) + padding + 10})
+      .attr("height",function(d){return yHeight - yScale(d.FoodWasted) + padding + 10}) // Adds 10 for padding reasons
       .attr("fill","#99d98c")
       .on("mouseover", function(event, d) {
-        var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);
+        var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);   // Darkens Color
         d3.select(this).attr("fill",darkColor);
       })
       .on("mousemove",function(event, d) {
         var total = d.TotalFoodWasted;
         return (tooltip.style("visibility","visible")
-                  .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " million tonnes")
+                  .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " million tonnes") // Formats data
                   .style("top", event.pageY + "px")
                   .style("left", (event.pageX + 20) + "px"));
       })
       .on("mouseout", function(d) {
         svg.selectAll("#tooltip").remove();
-        var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);
+        var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);  // Brightens color again
         d3.select(this).attr("fill",lightColor)
         return (tooltip.style("visibility","hidden"));
       });
 
+  // Captions
   var captions = svg.append("g")
     .attr("transform","translate(0,0)");
 
@@ -497,8 +524,8 @@ function bar(dataset, svg, cD, x2, tooltip)
 
 function init()
 {
-  main();
-  subVis();
+  main();         // Main visualisation
+  subVis();       // Sub Visualisations
 }
 
 window.onload = init();
