@@ -13,8 +13,6 @@ function stackedBarChart() {
     var y = v4.scaleLinear().rangeRound([height, margin.top]);
     var color = v4.scaleOrdinal().range(["#b5e48c", "#99d98c", "#76c893"]);
 
-    console.log("bugger");
-
     // Setup main SVG board
     var svg = v4.select('#recycle-overview')
                 .append("svg")
