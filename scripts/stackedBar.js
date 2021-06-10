@@ -3,13 +3,18 @@
 
 function stackedBarChart() {
 
+    // Properties for SVG
+    var margin = {top: 25, right: 20, bottom: 75, left: 100};
+    var width = 1500 - margin.left - margin.right;
+    var height = 650 - margin.top - margin.bottom;
+
     // Ensure the bars scale relatively to dataset
-    var x = d3.scaleBand().rangeRound([0, width]).paddingInner(0.1);
-    var y = d3.scaleLinear().rangeRound([height, margin.top]);
-    var color = d3.scaleOrdinal().range(["#b5e48c", "#99d98c", "#76c893"]);
+    var x = v4.scaleBand().rangeRound([0, width]).paddingInner(0.1);
+    var y = v4.scaleLinear().rangeRound([height, margin.top]);
+    var color = v4.scaleOrdinal().range(["#b5e48c", "#99d98c", "#76c893"]);
 
     // Setup main SVG board
-    var svg = d3.select('#recycle-overview')
+    var svg = v4.select('#recycle-overview')
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -17,7 +22,7 @@ function stackedBarChart() {
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.csv("dataset/Recycle Data by Materials.csv", function(d, i, columns) {
+    v4.csv("dataset/Recycle Data by Materials.csv", function(d, i, columns) {
 
         for (i = 1, total = 0; i < columns.length; i++) {
             total += +d[columns[i]];    // Calculate total amount for each bar
@@ -35,14 +40,14 @@ function stackedBarChart() {
 
         // Initialise domain for the axes
         x.domain(wasteMaterials)
-        y.domain([0, d3.max(data, function(d) { return d.total; })]);
+        y.domain([0, v4.max(data, function(d) { return d.total; })]);
         color.domain(keys);
 
         // X-axis
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).tickSize(1))
+            .call(v4.axisBottom(x).tickSize(1))
             .selectAll("text")
             .style("font-size", "15")
             .style("text-anchor", "middle")
@@ -53,7 +58,7 @@ function stackedBarChart() {
         svg.append("g")
             .attr("class", "y axis")
             .style('opacity','0')
-            .call(d3.axisLeft(y))
+            .call(v4.axisLeft(y))
             .append("text")
             .attr("id", "label")
             .style("font-size", "17.5")
@@ -74,13 +79,13 @@ function stackedBarChart() {
         // Initialise stacked bar chart
         var chart = svg.selectAll(".chart")
                         .append("g")
-                        .data(d3.stack().keys(keys)(data))
+                        .data(v4.stack().keys(keys)(data))
                         .enter()
                         .append("g")
                         .attr("fill", function(d) { return color(d.key); })
 
         // Initialise tooltip
-        var tooltip = d3.select("#recycle-overview")
+        var tooltip = v4.select("#recycle-overview")
                         .append("div")
                         .attr("class", "tooltip")
                         .style("position", "absolute")
@@ -102,8 +107,8 @@ function stackedBarChart() {
             .attr("width", x.bandwidth())
             .on("mousemove", function(d) {
                 // Gets mouse pointer coordinate
-                var xPosition = d3.event.pageX + 20;
-                var yPosition = d3.event.pageY - 10;
+                var xPosition = v4.event.pageX + 20;
+                var yPosition = v4.event.pageY - 10;
 
                 // Store the keys and values from the data into variables
                 // Resource: https://www.freecodecamp.org/news/javascript-object-keys-tutorial-how-to-use-a-js-key-value-pair/
@@ -179,10 +184,10 @@ function stackedBarChart() {
         var labelY = 0.5;   // Y-coordinate for Y-axis label
         var offset = 3;
 
-        var total = d3.max(data, function(d) { return d.total; })
+        var total = v4.max(data, function(d) { return d.total; })
         
         // Scale the bars when zoom in button is clicked
-        d3.select("#zoom-in").on("click", function() {
+        v4.select("#zoom-in").on("click", function() {
             if (scaleIndex != scale.length - 1) {
                 scaleIndex++;
                 labelY -= offset;
@@ -193,7 +198,7 @@ function stackedBarChart() {
             svg.select(".y.axis")
                 .transition()
                 .duration(500)
-                .call(d3.axisLeft(y))
+                .call(v4.axisLeft(y))
                 .select("#label")
                 .attr("dy", labelY + "em");
 
@@ -206,7 +211,7 @@ function stackedBarChart() {
         });
         
         // Scale the bars when zoom out button is clicked
-        d3.select("#zoom-out").on("click", function() {
+        v4.select("#zoom-out").on("click", function() {
             if (scaleIndex != 0) {
                 scaleIndex--;
                 labelY += offset;
@@ -216,7 +221,7 @@ function stackedBarChart() {
             svg.select(".y.axis")
                 .transition()
                 .duration(500)
-                .call(d3.axisLeft(y))
+                .call(v4.axisLeft(y))
                 .select("#label")
                 .attr("dy", labelY + "em");
 
@@ -227,6 +232,33 @@ function stackedBarChart() {
                 .attr("height", function(d) { return y(d[0]) - y(d[1]); })
         });
     })
+}
+
+// Method source: https://bl.ocks.org/mbostock/7555321
+// from: https://stackoverflow.com/questions/24784302/wrapping-text-in-d3
+
+function wrap(text, width) {
+    text.each(function() {
+      var text = v4.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.2, // ems
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        }
+      }
+    });
 }
 
 window.onload = stackedBarChart;
