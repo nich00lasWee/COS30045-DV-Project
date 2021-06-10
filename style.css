@@ -5,7 +5,6 @@
 /* Suggested theme colours: #A3F564, #9be564 */
 
 /* Navigation Bar */
-
 nav {
   overflow: hidden;
 }
@@ -15,7 +14,7 @@ nav h1 {
   float: left;
   padding: 0px 10px;
   width: 20%;
-  height: auto;
+  font-size: 2em;
 }
 
 nav ul {
@@ -24,6 +23,7 @@ nav ul {
   justify-content: center;
   width: 50%;
   list-style-type: none;
+  font-size: 1.25em;
 }
 
 nav li {
@@ -60,13 +60,12 @@ nav li a:hover {
   shape-rendering: crispEdges;
 }
 
-.y.axis path {
-  #display: none;
-  #stroke-width: 0.5px;
-}
-
-.title {
-  text-align: center;
+#sub-vis {
+  justify-content: space-between;
+  height: 300px;
+  /* width: 75%;  Removed for now to match bar graph */
+  width: 1500px;
+  margin: 0 auto;
 }
 
 .sub-vis-home {
@@ -81,6 +80,39 @@ nav li a:hover {
 
 .zoom {
   float: right;
+}
+
+.y.axis {
+  font-size: 1em;
+}
+
+/* Recycle */
+.y.axis .domain {
+  display: none;
+}
+
+.zoomBtn {
+  position: relative;
+  left: 101%;
+  display: inline;
+  cursor: pointer;
+  font-size: 28px;
+  padding: 10px 5px;
+  color: rgb(175, 175, 175);
+}
+
+#zoom-in {
+  position: absolute;
+  top: -22.25em;
+}
+
+#zoom-out {
+  position: relative;
+  top: -21.25em;
+}
+
+#zoom-in:hover, #zoom-out:hover {
+  color:#000;
 }
 
 #lChart {

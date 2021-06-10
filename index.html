@@ -9,10 +9,11 @@
     <meta name="author" content="Gabriel Reynolds, Nicholas Wee"/>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script>
-      var d3v3 = window.d3;   // load different versions of d3 library
+      var v3 = window.d3;   // load different versions of d3 library
       window.d3 = null;
     </script>
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="scripts/shared.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="style.css">
   </header>
@@ -20,17 +21,22 @@
   <body>
     <h1 class="title">Title Placeholder</h1>
     <nav>
+      <h1>Vis for Environment</h1><br>
       <ul>
         <li><a href="index.html">Overview</a></li>
         <li><a href="personal.html">Personal / Household</a></li>
         <li><a href="recycle.html">Recycle</a></li>
-      </ul>
-    </nav>
-    <br>
+      </ul><!--To be implemented: https://www.w3schools.com/howto/howto_js_progressbar.asp-->
+    </nav><br>
+
   <div class="vis-container">
     <div class="main-vis">
       <div id="overview-vis">
-        <script src="scripts/overview.js"></script>
+        <script src="scripts/groupedBar.js"></script>
+      </div>
+      <div class="zoomBtn">
+        <i class="fa fa-search-plus" id="zoom-in"></i>
+        <i class="fa fa-search-minus" id="zoom-out"></i>
       </div>
       <div id="overview-text">
         <h2>Figure 1: Waste Generation by Waste Material in Australia, 2016 - 2019</h2>
@@ -75,5 +81,4 @@
             </button> -->
 
   </body>
-  <footer></footer>
 </html>
