@@ -1,7 +1,7 @@
 // Method source: https://bl.ocks.org/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0
 // Date retrieved: 7 June 2021
 
-function stackedBarChart() {
+export function stackedBarChart() {
 
     // Properties for SVG
     var margin = {top: 25, right: 20, bottom: 75, left: 100};
@@ -23,6 +23,8 @@ function stackedBarChart() {
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     v4.csv("dataset/Recycle Data by Materials.csv", function(d, i, columns) {
+
+        var total = 0;
 
         for (i = 1, total = 0; i < columns.length; i++) {
             total += +d[columns[i]];    // Calculate total amount for each bar
@@ -120,7 +122,7 @@ function stackedBarChart() {
                 var value = d[1] - d[0];    // Value of the bar area hovered
 
                 // Returns the year of the bar area hovered
-                for (i = 1; i < key.length - 1; i++) {
+                for (var i = 1; i < key.length - 1; i++) {
                     if (val[i] == value) year += key[i];
                 }
 
@@ -260,5 +262,3 @@ function wrap(text, width) {
       }
     });
 }
-
-window.onload = stackedBarChart;

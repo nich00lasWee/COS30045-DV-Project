@@ -6,7 +6,7 @@ function groupedBarGraph() {
   // ["#399283", "#4aeeb6", "#0e503e", "#8ae1f9", "#4443b4", "#dfcfe7", "#a50fa9", "#b687f8", "#4b425e", "#ef66f0"]
 
   // Properties for SVG
-  var margin = {top: 25, right: 20, bottom: 75, left: 100};
+  var margin = {top: 25, right: 25, bottom: 75, left: 100};
   var width = 1500 - margin.left - margin.right;
   var height = 650 - margin.top - margin.bottom;  
 
@@ -27,7 +27,7 @@ function groupedBarGraph() {
   
   // Colour scheme: https://coolors.co/d9ed92-b5e48c-99d98c-76c893-52b69a-34a0a4-168aad-1a759f-1e6091-184e77
   var color = v3.scale.ordinal().range(["#b5e48c", "#99d98c", "#76c893"]);
-
+  
   // Setup main SVG board
   var svg = v3.select('#overview-vis')
               .append("svg")
@@ -123,7 +123,7 @@ function groupedBarGraph() {
           })
           .on("mousemove", function(d) {
             var year = d.year;
-            var value = "Value: " + d.value.toLocaleString() ;
+            var value = "Value: " + d.value.toLocaleString();
 
             // Return tooltip with information when a bar is hovered
             tooltip.style("visibility", "visible")
