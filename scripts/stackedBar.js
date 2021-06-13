@@ -8,14 +8,6 @@ export function stackedBarChart() {
     var width = 1500 - margin.left - margin.right;
     var height = 650 - margin.top - margin.bottom;
 
-    var svg = d3.select('#overview-vis')
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .style("border", "2.5px solid #e3e3e3")
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
     // Ensure the bars scale relatively to dataset
     var x = v4.scaleBand().rangeRound([0, width]).paddingInner(0.1);
     var y = v4.scaleLinear().rangeRound([height, margin.top]);
