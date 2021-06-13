@@ -4,14 +4,10 @@
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* Navigation Bar */
-nav h1 {
-  float: left;
-  padding: 0px 10px;
-  width: auto;
-  font-size: 1.75em;
-  margin-right: -15%;
+h1 {
+  text-align: center;
 }
+/* Navigation Bar */
 
 nav ul {
   margin: 0 auto;
@@ -39,6 +35,9 @@ nav li a:hover {
 .vis-container {
   width: auto;
   margin: 2.5% 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+
 }
 
 .main-vis {
@@ -51,20 +50,9 @@ nav li a:hover {
   shape-rendering: crispEdges;
 }
 
-/* #sub-vis {
-  justify-content: space-between;
-  height: 300px;
-  /* width: 75%;  Removed for now to match bar graph 
-  width: 1500px;
-  margin: 0 auto;
-} */
-
-.zoom {
-  float: right;
-}
-
-.y.axis {
-  font-size: 1em;
+#pie-text, #area-text {
+  text-align: justify;
+  vertical-align: text-top;
 }
 
 .sub-vis-text {

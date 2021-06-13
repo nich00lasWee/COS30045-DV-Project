@@ -1,5 +1,4 @@
 function pieChart(dataset, cD, svg, x1, tooltip) {
-
   var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
   var padding = cD / 15.07826086956522; // acheives equal spacing
@@ -215,8 +214,8 @@ function init() {
       .style("display","inline-block")
       .style("width",cD + "px")
       .style("position","relative")
-      .style("top","60px")
-      .style("left",(start + x1) + "px");
+      .style("top","80px")
+      .style("left",(start + x1 + 3) + "px");
 
     var dataset = data;
     pieChart(dataset, cD, svg, x1, tooltip);
@@ -229,7 +228,7 @@ function init() {
       .style("display","inline-block")
       .style("width",cD + "px")
       .style("position","relative")
-      .style("top","90px")
+      .style("top","80px")
       .style("left", (x2 - cD) + "px");  // Good enough for now
 
     var dataset = data;

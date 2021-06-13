@@ -344,7 +344,6 @@ function subVis()
 function scatter(dataset, svg, cD, x1, tooltip)
 {
   var padding = 40;
-  var year = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
   var xScale = d3.scaleLinear()
     .domain([7, d3.max(dataset, function(d) {return (parseInt(d.Intensity) + 3);})])

@@ -302,7 +302,7 @@ export function graph()
       .style("display","inline-block")
       .style("width",cD + "px")
       .style("position","relative")
-      .style("top","90px")
+      .style("top","80px")
       .style("left",x1 + "px");
 
     var dataset = data;
@@ -316,7 +316,7 @@ export function graph()
         .style("display","inline-block")
         .style("width",cD + "px")
         .style("position","relative")
-        .style("top","65px")
+        .style("top","80px")
         .style("left", (x2 - cD) + "px");
 
       var dataset = data;

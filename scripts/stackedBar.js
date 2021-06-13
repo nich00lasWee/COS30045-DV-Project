@@ -91,7 +91,7 @@ export function stackedBarChart() {
                         .append("div")
                         .attr("class", "tooltip")
                         .style("position", "absolute")
-                        .style("visibility", "visible")
+                        .style("visibility", "hidden")
                         .style("background-color", "rgba(255, 255, 255, 0.9)")
                         .style("border", "1px solid #d3d3d3")
                         .style("box-shadow", "0px 1.5px #d3d3d3")
