@@ -1,5 +1,5 @@
 function pieChart(dataset, cD, svg, x1, tooltip) {
-  
+
   var outerRadius = cD / 2.3;  // reduces size of chart
   var innerRadius = 0;
   var padding = cD / 15.07826086956522; // acheives equal spacing
@@ -45,8 +45,6 @@ function pieChart(dataset, cD, svg, x1, tooltip) {
   })
   .on("mousemove", function(event, d) {
     var sector;
-    var waste;
-
     for(j = 0; j < dataset.length; j++)
       if(dataset[j].WasteProduced == d.value)
         sector = dataset[j].Sector;
@@ -65,7 +63,7 @@ function pieChart(dataset, cD, svg, x1, tooltip) {
   });
 }
 
-function lineChart(dataset, svg, sW, cD, x2, padding, tooltip) { // Plastic production per year, 2016 - 2019 (millions of tonnes)
+function lineChart(dataset, svg, cD, x2, padding, tooltip) { // Plastic production per year, 2016 - 2019 (millions of tonnes)
 
   var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
@@ -206,7 +204,7 @@ function init() {
       .style("border-radius", "5px")
       .style("padding", "10px");
 
-  var start = (pageWidth - sW) / 2;
+  var start = (pageWidth - sW) / 2;   // Used to calculate text positioning
 
   d3.csv("dataset/pieChart.csv").then(function(data) {
 
@@ -233,7 +231,7 @@ function init() {
       .style("left", (x2 - cD) + "px");  // Good enough for now
 
     var dataset = data;
-    lineChart(dataset, svg, sW, cD, x2, padding, tooltip);  // forgive the amount of parameters, I'll condense this later
+    lineChart(dataset, svg, cD, x2, padding, tooltip);  // forgive the amount of parameters, I'll condense this later
  })
 }
 

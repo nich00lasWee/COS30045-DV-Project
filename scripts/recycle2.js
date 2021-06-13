@@ -1,8 +1,6 @@
 function area(dataset, svg, cD, x1, tooltip)
 {
   var padding = 40;
-  var width = 1375;
-
   var xData = dataset.map(function(d){return d.TimePeriod;});  // Maps X values to array for scale
 
   var xScale = d3.scalePoint()
@@ -22,7 +20,7 @@ function area(dataset, svg, cD, x1, tooltip)
     .scale(yScale);
 
   svg.append("g")
-      .attr("transform", "translate(0, " + (cD - padding - 15) + ")")
+      .attr("transform", "translate(0, " + (cD - padding - 15) + ")") // Subtracts 15 for additional padding
       .call(xAxis);
 
   svg.append("g")
@@ -91,12 +89,12 @@ function area(dataset, svg, cD, x1, tooltip)
       .attr("cy", function(d) {return yScale(d.Waste) - (padding / 2);})
       .attr("r",4.5)
     .on("mouseover", function(event, d) {
-      var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(1);
+      var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(1);           // Generates and applies darker color
       d3.select(this).attr("fill",darkColor);
       var total = d.TotalWaste + " tonnes";
       return (tooltip.style("visibility","visible")
-                .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                .style("top", event.pageY + "px")
+                .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))   // Formats string
+                .style("top", event.pageY + "px")                               // Current mouse coordinates
                 .style("left", (event.pageX + 20) + "px"))
     })
     .on("mouseout", function(d) {
@@ -215,7 +213,7 @@ function pie(dataset, svg, cD, x2, tooltip)
           "#68737A",
           "#b5e48c",  // < - Recycling, lighter color
           "#63666A",
-          "#5A5A5A"      ]);
+          "#5A5A5A"]);
 
   var path = arcs.append("path")
       .attr("fill",function(d, i) {
@@ -231,7 +229,7 @@ function pie(dataset, svg, cD, x2, tooltip)
     d3.select(this).attr("fill",darkColor);
   })
   .on("mousemove", function(event, d) {
-    var sector;                                 // Fate of Waste
+    var sector; // Fate of Waste, assigned value in loop
 
     // Matches fate to relevant amount and stores in variable
     for(var j = 0; j < dataset.length; j++)
@@ -254,24 +252,20 @@ function pie(dataset, svg, cD, x2, tooltip)
 
 export function graph()
 {
-  var pageWidth = 1500;
   var sW = document.getElementById("sub-vis").clientWidth;
-  var cD = 0.25 * sW;                                           // Each chart is allocated 25% of svg Width - remainder is used for gaps between
+  var cD = 0.25 * sW;     // Each chart is allocated 25% of svg Width - remainder is used for gaps between
+  var x1 = sW * 0.125;    // X Position of first visualisation
+  var x2 = sW * 0.625;
 
   var svg = d3.selectAll("#sub-vis")
     .append("svg")
     .attr("viewBox","0 0 " + sW + " " + (cD + 50)); // Uses width of page and height of visualisations, viewbox for responsiveness
-
-  var x1 = sW * 0.125;  // X Position of first visualisation
 
   svg.append("rect")
     .attr("x", x1)
     .attr("y", 1)
     .attr("width", cD)
     .attr("height", cD - 1);  // prevents svg from clipping rectangle
-
-  var x2 = sW * 0.625;
-  var padding = 40;
 
   svg.append("rect")
     .attr("x", x2)
@@ -323,5 +317,3 @@ export function graph()
       pie(dataset, svg, cD, x2, tooltip);
     });
 }
-
-//window.onload = init;
