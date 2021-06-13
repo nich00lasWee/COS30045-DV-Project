@@ -1,19 +1,25 @@
 // Method source: https://bl.ocks.org/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0
 // Date retrieved: 7 June 2021
 
-function stackedBarChart() {
+export function stackedBarChart() {
 
     // Properties for SVG
     var margin = {top: 25, right: 20, bottom: 75, left: 100};
     var width = 1500 - margin.left - margin.right;
     var height = 650 - margin.top - margin.bottom;
 
+    var svg = d3.select('#overview-vis')
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .style("border", "2.5px solid #e3e3e3")
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
     // Ensure the bars scale relatively to dataset
     var x = v4.scaleBand().rangeRound([0, width]).paddingInner(0.1);
     var y = v4.scaleLinear().rangeRound([height, margin.top]);
     var color = v4.scaleOrdinal().range(["#b5e48c", "#99d98c", "#76c893"]);
-
-    console.log("bugger");
 
     // Setup main SVG board
     var svg = v4.select('#recycle-overview')
@@ -25,6 +31,8 @@ function stackedBarChart() {
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     v4.csv("dataset/Recycle Data by Materials.csv", function(d, i, columns) {
+
+        var total = 0;
 
         for (i = 1, total = 0; i < columns.length; i++) {
             total += +d[columns[i]];    // Calculate total amount for each bar
@@ -91,7 +99,7 @@ function stackedBarChart() {
                         .append("div")
                         .attr("class", "tooltip")
                         .style("position", "absolute")
-                        .style("visibility", "visible")
+                        .style("visibility", "hidden")
                         .style("background-color", "rgba(255, 255, 255, 0.9)")
                         .style("border", "1px solid #d3d3d3")
                         .style("box-shadow", "0px 1.5px #d3d3d3")
@@ -122,7 +130,7 @@ function stackedBarChart() {
                 var value = d[1] - d[0];    // Value of the bar area hovered
 
                 // Returns the year of the bar area hovered
-                for (i = 1; i < key.length - 1; i++) {
+                for (var i = 1; i < key.length - 1; i++) {
                     if (val[i] == value) year += key[i];
                 }
 
@@ -262,5 +270,3 @@ function wrap(text, width) {
       }
     });
 }
-
-window.onload = stackedBarChart;

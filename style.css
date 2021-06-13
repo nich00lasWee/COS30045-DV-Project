@@ -1,33 +1,19 @@
+/* Theme colours: #A3F564, #9be564 */
+
 * {
   font-family: Helvetica, Arial, sans-serif;
 }
-
-/* Suggested theme colours: #A3F564, #9be564 */
-
+h1 {
+  text-align: center;
+}
 /* Navigation Bar */
-nav {
-  overflow: hidden;
-}
-
-nav h1 {
-  overflow: visible;
-  float: left;
-  padding: 0px 10px;
-  width: 20%;
-  font-size: 2em;
-}
 
 nav ul {
   margin: 0 auto;
   display: flex;
-  justify-content: center;
-  width: 50%;
+  justify-content: space-evenly;
+  width: 30%;
   list-style-type: none;
-  font-size: 1.25em;
-}
-
-nav li {
-  margin: 0px 10px;
 }
 
 nav li a {
@@ -46,12 +32,14 @@ nav li a:hover {
 
 /* Main */
 .vis-container {
-  width: 1500px;
-  margin: 0 auto;
+  width: auto;
+  margin: 2.5% 10%;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
-.overview-vis {
-  text-align: center;
+.main-vis {
+  width: 1500px;
 }
 
 .y.axis path, .y.axis line {
@@ -60,30 +48,9 @@ nav li a:hover {
   shape-rendering: crispEdges;
 }
 
-#sub-vis {
-  justify-content: space-between;
-  height: 300px;
-  /* width: 75%;  Removed for now to match bar graph */
-  width: 1500px;
-  margin: 0 auto;
-}
-
-.sub-vis-home {
-  height: 200px;
-}
-
-.sub-vis-home iframe {
-  width: 85%;
-  height: 200px;
-  float: left;
-}
-
-.zoom {
-  float: right;
-}
-
-.y.axis {
-  font-size: 1em;
+#pie-text, #area-text {
+  text-align: justify;
+  vertical-align: text-top;
 }
 
 /* Recycle */
@@ -91,6 +58,7 @@ nav li a:hover {
   display: none;
 }
 
+/* Zoom buttons */
 .zoomBtn {
   position: relative;
   left: 101%;

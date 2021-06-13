@@ -234,7 +234,7 @@ function pie(dataset, svg, cD, x2, tooltip)
     var sector;                                 // Fate of Waste
 
     // Matches fate to relevant amount and stores in variable
-    for(j = 0; j < dataset.length; j++)
+    for(var j = 0; j < dataset.length; j++)
       if(dataset[j].Amount == d.value)
         sector = dataset[j].Fate;
     var coordinates = d3.pointer(event);
@@ -252,7 +252,7 @@ function pie(dataset, svg, cD, x2, tooltip)
   });
 }
 
-function init()
+export function graph()
 {
   var pageWidth = 1500;
   var sW = document.getElementById("sub-vis").clientWidth;
@@ -302,7 +302,7 @@ function init()
       .style("display","inline-block")
       .style("width",cD + "px")
       .style("position","relative")
-      .style("top","90px")
+      .style("top","80px")
       .style("left",x1 + "px");
 
     var dataset = data;
@@ -316,7 +316,7 @@ function init()
         .style("display","inline-block")
         .style("width",cD + "px")
         .style("position","relative")
-        .style("top","65px")
+        .style("top","80px")
         .style("left", (x2 - cD) + "px");
 
       var dataset = data;
@@ -324,4 +324,4 @@ function init()
     });
 }
 
-window.onload = init;
+//window.onload = init;
