@@ -469,54 +469,54 @@ function bar(dataset, svg, cD, x2, tooltip)
         .attr("transform", "translate(" + (x2 + padding) + ", -15)")
         .call(yAxis);
 
-  // Bars
-  var yRange = yScale.range();              // Acquires range
-  var yHeight = yRange[0] - yRange[1];      // Calculates length of yAxis by subtracting start value from end value
+    // Bars
+    var yRange = yScale.range();              // Acquires range
+    var yHeight = yRange[0] - yRange[1];      // Calculates length of yAxis by subtracting start value from end value
 
-  svg.selectAll(".rect")
-    .data(dataset)
-    .enter()
-    .append("rect")
-      .attr("x",function (d) {return xScale(d.TimePeriod)})
-      .attr("y",function(d) {return yScale(d.FoodWasted) - 15}) // Subtracts 15 for padding reaons
-      .attr("width",xScale.bandwidth())
-      .attr("height",function(d){return yHeight - yScale(d.FoodWasted) + padding + 10}) // Adds 10 for padding reasons
-      .attr("fill","#99d98c")
-      .on("mouseover", function(event, d) {
-        var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);   // Darkens Color
-        d3.select(this).attr("fill",darkColor);
-      })
-      .on("mousemove",function(event, d) {
-        var total = d.TotalFoodWasted;
-        return (tooltip.style("visibility","visible")
-                  .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " million tonnes") // Formats data
-                  .style("top", event.pageY + "px")
-                  .style("left", (event.pageX + 20) + "px"));
-      })
-      .on("mouseout", function(d) {
-        svg.selectAll("#tooltip").remove();
-        var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);  // Brightens color again
-        d3.select(this).attr("fill",lightColor)
-        return (tooltip.style("visibility","hidden"));
-      });
+    svg.selectAll(".rect")
+      .data(dataset)
+      .enter()
+      .append("rect")
+        .attr("x",function (d) {return xScale(d.TimePeriod)})
+        .attr("y",function(d) {return yScale(d.FoodWasted) - 15}) // Subtracts 15 for padding reaons
+        .attr("width",xScale.bandwidth())
+        .attr("height",function(d){return yHeight - yScale(d.FoodWasted) + padding + 10}) // Adds 10 for padding reasons
+        .attr("fill","#99d98c")
+        .on("mouseover", function(event, d) {
+          var darkColor = d3.rgb(d3.select(this).attr("fill")).darker(0.5);   // Darkens Color
+          d3.select(this).attr("fill",darkColor);
+        })
+        .on("mousemove",function(event, d) {
+          var total = d.TotalFoodWasted;
+          return (tooltip.style("visibility","visible")
+                    .html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " million tonnes") // Formats data
+                    .style("top", event.pageY + "px")
+                    .style("left", (event.pageX + 20) + "px"));
+        })
+        .on("mouseout", function(d) {
+          svg.selectAll("#tooltip").remove();
+          var lightColor = d3.rgb(d3.select(this).attr("fill")).brighter(0.5);  // Brightens color again
+          d3.select(this).attr("fill",lightColor)
+          return (tooltip.style("visibility","hidden"));
+        });
 
-  // Captions
-  var captions = svg.append("g")
-    .attr("transform","translate(0,0)");
+    // Captions
+    var captions = svg.append("g")
+      .attr("transform","translate(0,0)");
 
-  captions.append("text")
-    .attr("x", x2 + 20)
-    .attr("y", 20)
-    .style("font-size","12.5px")
-    .style("font-weight","bold")
-    .text("Amount (mill tonnes)");
+    captions.append("text")
+      .attr("x", x2 + 20)
+      .attr("y", 20)
+      .style("font-size","12.5px")
+      .style("font-weight","bold")
+      .text("Amount (mill tonnes)");
 
-  captions.append("text")
-    .attr("x", x2 + padding + 110)
-    .attr("y", cD - (padding / 2))
-    .style("font-size","12.5px")
-    .style("font-weight","bold")
-    .text("Time Period");
+    captions.append("text")
+      .attr("x", x2 + padding + 110)
+      .attr("y", cD - (padding / 2))
+      .style("font-size","12.5px")
+      .style("font-weight","bold")
+      .text("Time Period");
 }
 
 function init()

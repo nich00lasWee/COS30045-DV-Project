@@ -3,7 +3,6 @@
 * {
   font-family: Helvetica, Arial, sans-serif;
 }
-
 h1 {
   text-align: center;
 }
@@ -37,7 +36,6 @@ nav li a:hover {
   margin: 2.5% 10%;
   margin-left: 20%;
   margin-right: 20%;
-
 }
 
 .main-vis {
@@ -48,15 +46,6 @@ nav li a:hover {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
-}
-
-#pie-text, #area-text {
-  text-align: justify;
-  vertical-align: text-top;
-}
-
-.sub-vis-text {
-  /*margin-top: 17.5%;*/
 }
 
 #pie-text, #area-text {
